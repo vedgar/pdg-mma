@@ -1,0 +1,4995 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 6.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[    167468,       4986]
+NotebookOptionsPosition[    152475,       4479]
+NotebookOutlinePosition[    152835,       4495]
+CellTagsIndexPosition[    152792,       4492]
+WindowFrame->Normal
+ContainsDynamic->False*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Tutorial", "Subtitle",
+ CellChangeTimes->{{3.44078037909375*^9, 3.44078038065625*^9}}],
+
+Cell[TextData[{
+ "Prvo u\[CHacek]itajmo paket ",
+ Cell[BoxData[
+  FormBox["pdg", TraditionalForm]]],
+ " (iz direktorija u kojem je trenutni notebook):"
+}], "Text",
+ CellChangeTimes->{{3.4407804070625*^9, 3.44078044915625*^9}, {
+  3.4409296059375*^9, 3.4409296059375*^9}, {3.44093816740625*^9, 
+  3.440938167890625*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"SetDirectory", "@", 
+  RowBox[{"NotebookDirectory", "[", "]"}]}]], "Input"],
+
+Cell[BoxData["\<\"C:\\\\Documents and Settings\\\\Veky\\\\My \
+Documents\\\\Math\\\\Mma\\\\Prirodna dedukcija\"\>"], "Output",
+ CellChangeTimes->{{3.440780466515625*^9, 3.440780481625*^9}, 
+   3.440780880796875*^9, {3.4407837160625*^9, 3.440783749453125*^9}, {
+   3.440847327703125*^9, 3.440847362515625*^9}, {3.440929370265625*^9, 
+   3.440929397140625*^9}, 3.44092961575*^9, 3.4409297006875*^9, 
+   3.440935209765625*^9, 3.440935340859375*^9, 3.440935472296875*^9, 
+   3.440936487890625*^9, 3.440937667734375*^9, 3.440938115640625*^9, 
+   3.4409382321875*^9, 3.4409382646875*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"<<", "pdg.m"}]], "Input",
+ CellChangeTimes->{{3.440780494453125*^9, 3.44078049715625*^9}, 
+   3.440929379671875*^9}],
+
+Cell[BoxData["\<\"d[$] uvo\:0111enje aksioma\\nd[$,i] uvo\:0111enje \
+privremene pretpostavke\\nd[1,%] eliminacija konjunkcije ili bikondicionala, \
+slijeva\\nd[2,%] eliminacija konjunkcije ili bikondicionala, \
+zdesna\\nd[3,%,%] introdukcija konjunkcije ili bikondicionala\\nd[%,%,%] \
+eliminacija disjunkcije\\nd[%,$] introdukcija disjunkcije, slijeva\\nd[$,%] \
+introdukcija disjunkcije, zdesna\\nd[%,%] eliminacija negacije ili \
+kondicionala\\nd[%,i] introdukcija negacije ili kondicionala\\nd[%] \
+eliminacija dvostruke negacije\\nd[4,%] zavr\[SHacek]etak dokaza (final \
+check)\\n    Redoslijed argumenata je vrlo bitan!\\n$ string (u navodnicima) \
+koji predstavlja formulu (p,q,r,s;&,|,!,>,=;(,) i mnogi drugi)\\n% neki od \
+prethodnih izlaza (%: prethodni, %%: pretprethodni,... ili %42: Out[42])\\ni \
+prirodni broj (redni broj privremene pretpostavke)\"\>"], "Output",
+ CellChangeTimes->{
+  3.44078049784375*^9, 3.440780881015625*^9, 3.4407837495*^9, {
+   3.440847327734375*^9, 3.440847362546875*^9}, {3.440929371296875*^9, 
+   3.44092939865625*^9}, 3.440929615796875*^9, 3.440929700734375*^9, 
+   3.440935209890625*^9, 3.44093534090625*^9, 3.44093547234375*^9, 
+   3.4409364879375*^9, 3.44093766778125*^9, 3.4409381156875*^9, 
+   3.44093823225*^9, 3.440938264796875*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Osnovne stvari", "Section",
+ CellChangeTimes->{{3.440780522140625*^9, 3.440780524546875*^9}}],
+
+Cell[TextData[{
+ "Ovaj framework slu\:017ei za pisanje i provjeru izvoda u sustavu prirodne \
+dedukcije. Gore pi\[SHacek]u neki op\[CAcute]i hintovi za kori\[SHacek]tenje. \
+Funkcija koja provodi jedan korak dedukcije zove se d. Njeni argumenti \
+(jedan, dva ili tri njih) pi\[SHacek]u se u uglatim zagradama, odvojeni \
+zarezima. Na primjer, uvo\:0111enje aksioma (formule koja stoji s lijeva \
+znaku ",
+ Cell[BoxData[
+  FormBox["\[RightTee]", TraditionalForm]]],
+ ") u izvod obavlja se tako da se funkciji d dade jedan string kao argument. \
+Stringovi se pi\[SHacek]u u navodnicima (\"\[Ellipsis]\")."
+}], "Text",
+ CellChangeTimes->{{3.4407805380625*^9, 3.440780684484375*^9}, {
+  3.440780714609375*^9, 3.4407808114375*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", "\"\<P\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.440780788859375*^9, 3.4407807929375*^9}, {
+  3.4407808698125*^9, 3.44078087028125*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"P\"\>",
+    Row[{"P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]",
+    "\[EmptySet]", "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"P"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", "P", 
+    "    ", ""}]]], "Output",
+ CellChangeTimes->{
+  3.440780828125*^9, {3.440780871140625*^9, 3.4407808835*^9}, 
+   3.44078374953125*^9, {3.44084732784375*^9, 3.440847362578125*^9}, {
+   3.440929382765625*^9, 3.4409294005625*^9}, 3.4409296158125*^9, 
+   3.440929700765625*^9, 3.4409352099375*^9, 3.440935340921875*^9, 
+   3.440935472359375*^9, 3.44093648796875*^9, 3.440937667796875*^9, 
+   3.440938115703125*^9, 3.440938232296875*^9, 3.4409382649375*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "Izlaz ove naredbe (kao i op\[CAcute]enitih d-naredbi) je oblika ",
+ Cell[BoxData[
+  FormBox[
+   StyleBox[
+    RowBox[{
+     SubscriptBox["F", "1"], ",", 
+     SubscriptBox["F", "2"], ",", "...", ",", 
+     RowBox[{
+      SubscriptBox["F", "n"], " ", ";", " ", 
+      SuperscriptBox[
+       OverscriptBox[
+        SubscriptBox["G", "1"], "_"], "1"]}], ",", " ", 
+     SuperscriptBox[
+      OverscriptBox[
+       SubscriptBox["G", "2"], "_"], "2"], ",", "...", ",", " ", 
+     RowBox[{
+      SuperscriptBox[
+       OverscriptBox[
+        SubscriptBox["G", "m"], "_"], "m"], " ", "\[RightTee]", " ", "F"}]}], 
+    "DisplayFormula"], TraditionalForm]]],
+ ", pri \[CHacek]emu su ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["F", "i"], TraditionalForm]]],
+ " aksiomi (formule koje \[CAcute]e na kraju izvoda pisati s lijeve strane od \
+",
+ Cell[BoxData[
+  FormBox["\[RightTee]", TraditionalForm]]],
+ "), dok su ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["G", "j"], TraditionalForm]]],
+ " privremene pretpostavke (koje se moraju zatvoriti u nekom trenutku da bi \
+izvod bio ispravan)."
+}], "Text",
+ CellChangeTimes->{{3.440780841796875*^9, 3.440780859265625*^9}, {
+   3.440780891390625*^9, 3.440781131125*^9}, 3.4407812395625*^9}],
+
+Cell[TextData[{
+ "U ovom slu\[CHacek]aju nemamo privremenih pretpostavki (",
+ Cell[BoxData[
+  FormBox["\[EmptySet]", TraditionalForm]]],
+ "), imamo samo jedan aksiom ",
+ Cell[BoxData[
+  FormBox["P", TraditionalForm]]],
+ ", i jedino \[SHacek]to u ovom koraku mo\:017eemo zaklju\[CHacek]iti je ",
+ Cell[BoxData[
+  FormBox["P", TraditionalForm]]],
+ ". Na desnoj strani od ",
+ Cell[BoxData[
+  FormBox["\[RightTee]", TraditionalForm]]],
+ " uvijek pi\[SHacek]e zadnja formula do koje smo trenutno stigli (korijen \
+stabla koji upravo pi\[SHacek]emo). Cilj nam je na desnoj strani dobiti \
+formulu koju izvodimo, na lijevoj strani aksiome iz kojih je izvodimo, i sve \
+privremene pretpostavke zatvorene (ili da ih uop\[CAcute]e nema, ",
+ Cell[BoxData[
+  FormBox["\[EmptySet]", TraditionalForm]]],
+ ")."
+}], "Text",
+ CellChangeTimes->{{3.44078113425*^9, 3.440781180359375*^9}, {
+  3.440781288109375*^9, 3.440781394984375*^9}}],
+
+Cell[TextData[{
+ "Tako\:0111er, primijetimo da izlaz ima broj: prije njega pi\[SHacek]e ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"Out", "[", "3", "]"}], "="}], TraditionalForm]]],
+ ". To zna\[CHacek]i da je na\[SHacek]em koraku u dedukciji pridru\:017een \
+broj 3, i mo\:017eemo se na njega pozivati s ",
+ Cell[BoxData[
+  FormBox["%3", TraditionalForm]]],
+ ". Na primjer, da bismo uveli konjunkciju, pi\[SHacek]emo ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"d", "[", 
+    RowBox[{"3", ",", 
+     SubscriptBox["%", "1"], ",", 
+     SubscriptBox["%", "2"]}], "]"}], TraditionalForm]]],
+ ". U ovom slu\[CHacek]aju, mo\:017eemo uvesti jo\[SHacek] jedan aksiom ",
+ Cell[BoxData[
+  FormBox["Q", TraditionalForm]]],
+ " (dozvoljena su slova ",
+ Cell[BoxData[
+  FormBox["P", TraditionalForm]]],
+ ", ",
+ Cell[BoxData[
+  FormBox["Q", TraditionalForm]]],
+ ", ",
+ Cell[BoxData[
+  FormBox["R", TraditionalForm]]],
+ " i ",
+ Cell[BoxData[
+  FormBox["S", TraditionalForm]]],
+ "):"
+}], "Text",
+ CellChangeTimes->{{3.4407814345*^9, 3.440781501453125*^9}, {
+  3.44078165840625*^9, 3.440781749125*^9}, {3.440938008578125*^9, 
+  3.44093802575*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", "\"\<Q\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.44078175109375*^9, 3.440781753328125*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"Q\"\>",
+    Row[{"Q"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]",
+    "\[EmptySet]", "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"Q\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"Q"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", "Q", 
+    "    ", ""}]]], "Output",
+ CellChangeTimes->{
+  3.4407817573125*^9, 3.4407837495625*^9, {3.440847327859375*^9, 
+   3.440847362609375*^9}, {3.440929385390625*^9, 3.440929403015625*^9}, 
+   3.440929615828125*^9, 3.44092970078125*^9, 3.440935209984375*^9, 
+   3.440935340953125*^9, 3.440935472390625*^9, 3.440936487984375*^9, 
+   3.440937667828125*^9, 3.440938115734375*^9, 3.4409382323125*^9, 
+   3.440938264984375*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "... i onda uvesti konjunkciju pomo\[CAcute]u (",
+ Cell[BoxData[
+  FormBox["%3", TraditionalForm]]],
+ " predstavlja gornji aksiom ",
+ Cell[BoxData[
+  FormBox["P", TraditionalForm]]],
+ ", dok ",
+ Cell[BoxData[
+  FormBox["%4", TraditionalForm]]],
+ " predstavlja upravo uvedeni ",
+ Cell[BoxData[
+  FormBox["Q", TraditionalForm]]],
+ "; prvi argument je uvijek 3 za introdukciju konjunkcije):"
+}], "Text",
+ CellChangeTimes->{{3.440781765046875*^9, 3.4407817851875*^9}, {
+  3.4407818346875*^9, 3.44078183940625*^9}, {3.4407820814375*^9, 
+  3.44078211509375*^9}, {3.440782165890625*^9, 3.440782177734375*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"3", ",", "%3", ",", "%4"}], "]"}]], "Input",
+ CellChangeTimes->{{3.44078184146875*^9, 3.44078184759375*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox[
+    RowBox[{"\<\"P\"\>", ",", "\<\"Q\"\>"}],
+    Row[{"P", "Q"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\[And]Q\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(I\[And])\"\>"}],
+  Row[{
+    Row[{"P", "Q"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", 
+    "P\[And]Q", "    ", "(I\[And])"}]]], "Output",
+ CellChangeTimes->{
+  3.44078184959375*^9, 3.44078374959375*^9, {3.440847327875*^9, 
+   3.440847362625*^9}, {3.44092938678125*^9, 3.440929404578125*^9}, 
+   3.440929615859375*^9, 3.440929700796875*^9, 3.440935210015625*^9, 
+   3.44093534096875*^9, 3.44093547240625*^9, 3.440936488015625*^9, 
+   3.44093766784375*^9, 3.44093811575*^9, 3.44093823234375*^9, 
+   3.440938265015625*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "Vidimo da sada imamo dva aksioma, te je formula do koje smo do\[SHacek]li \
+",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"P", "\[And]", "Q"}], TraditionalForm]]],
+ ". Sustav cijelo vrijeme prati sve kori\[SHacek]tene aksiome i privremene \
+pretpostavke, tako da u svakom trenutku znamo iz \[CHacek]ega izvodimo ono do \
+\[CHacek]eg smo do\[SHacek]li. Na kraju outputa jo\[SHacek] pi\[SHacek]e \"(I\
+\[And])\", \[SHacek]to je pravilo kojim je ta formula dobivena (u ovom slu\
+\[CHacek]aju introdukcija konjunkcije)."
+}], "Text",
+ CellChangeTimes->{{3.440781865671875*^9, 3.44078201378125*^9}, {
+  3.440929443359375*^9, 3.440929492484375*^9}}],
+
+Cell[TextData[{
+ "Naravno, sada ",
+ Cell[BoxData[
+  FormBox["%5", TraditionalForm]]],
+ " postaje novi korak u na\[SHacek]em izvodu, koji mo\:017eemo koristiti \
+dalje: na primjer, mo\:017eemo uvesti disjunkciju"
+}], "Text",
+ CellChangeTimes->{{3.440782225796875*^9, 3.44078226646875*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%5", ",", "\"\<R\>\""}], "]"}]], "Input",
+ CellChangeTimes->{{3.440782269875*^9, 3.4407822811875*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox[
+    RowBox[{"\<\"P\"\>", ",", "\<\"Q\"\>"}],
+    Row[{"P", "Q"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"(P\[And]Q)\[Or]R\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(I\[Or])\"\>"}],
+  Row[{
+    Row[{"P", "Q"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", 
+    "(P\[And]Q)\[Or]R", "    ", "(I\[Or])"}]]], "Output",
+ CellChangeTimes->{
+  3.44078228321875*^9, 3.440783749625*^9, {3.440847327890625*^9, 
+   3.440847362640625*^9}, 3.4409293885625*^9, 3.440929615875*^9, 
+   3.440929700828125*^9, 3.440935210046875*^9, 3.440935341*^9, 
+   3.4409354724375*^9, 3.44093648803125*^9, 3.440937667859375*^9, 
+   3.44093811578125*^9, 3.440938232359375*^9, 3.4409382650625*^9}]
+}, Open  ]],
+
+Cell["\<\
+... ili mo\:017eemo eliminirati konjunkciju iz njega (prvi argument je 1 za \
+lijevi konjunkt, 2 za desni)\
+\>", "Text",
+ CellChangeTimes->{{3.440782292796875*^9, 3.4407823485*^9}, {
+  3.440782419296875*^9, 3.440782420546875*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"2", ",", "%5"}], "]"}]], "Input",
+ CellChangeTimes->{{3.4407823011875*^9, 3.44078230465625*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox[
+    RowBox[{"\<\"P\"\>", ",", "\<\"Q\"\>"}],
+    Row[{"P", "Q"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"Q\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(E\[And])\"\>"}],
+  Row[{
+    Row[{"P", "Q"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", 
+    "Q", "    ", "(E\[And])"}]]], "Output",
+ CellChangeTimes->{
+  3.440782311265625*^9, 3.44078374965625*^9, {3.44084732790625*^9, 
+   3.44084736265625*^9}, 3.440929503046875*^9, 3.440929615890625*^9, 
+   3.44092970084375*^9, 3.440935210078125*^9, 3.440935341015625*^9, 
+   3.440935472453125*^9, 3.4409364880625*^9, 3.440937667890625*^9, 
+   3.440938115796875*^9, 3.440938232375*^9, 3.44093826509375*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "Kada je dokaz gotov, mo\:017eemo pozvati ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"d", "[", 
+    RowBox[{"4", ",", 
+     SubscriptBox["%", "zadnji"]}], "]"}], TraditionalForm]]],
+ " da bismo provjerili je li sve u redu (zatvorene sve privremene \
+pretpostavke, na primjer) i doveli iskaz u oblik kakav koristimo na \
+vje\:017ebama. Tako\:0111er \[CAcute]emo na taj na\[CHacek]in dobiti i grafi\
+\[CHacek]ki prikaz izvoda:"
+}], "Text",
+ CellChangeTimes->{{3.440782487984375*^9, 3.440782539515625*^9}, {
+  3.440782661078125*^9, 3.440782678*^9}, {3.440929514109375*^9, 
+  3.44092952953125*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"4", ",", "%6"}], "]"}]], "Input",
+ CellChangeTimes->{{3.4407825489375*^9, 3.440782558046875*^9}}],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     InterpretationBox[
+      RowBox[{
+       InterpretationBox[
+        RowBox[{"\<\"P\"\>", ",", "\<\"Q\"\>"}],
+        Row[{"P", "Q"}, ","]], "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+       "\[InvisibleSpace]", "\<\"(P\[And]Q)\[Or]R\"\>"}],
+      Row[{
+        Row[{"P", "Q"}, ","], " \[RightTee] ", "(P\[And]Q)\[Or]R"}]]},
+    {
+     GraphicsBox[RasterBox[CompressedData["
+1:eJztmNFxhCAQhplJJakhTficAvJwDeSFcuiFUijlonjALiwiiqdZ+WZucpJd
+kT8LG//Px+/340MI8TV+fsbP9P3Z6TTCKKlMfZqWYlDzTzF+M3vudU202roW
+NQhhVZnUkXoeNErpRk92MkgY+/efcSuNlfMrNy9hQsFEAYgx2t8xTDMP2TtJ
+IulU4opBK3BDYKlG6zleDWEHDWhdlDRTmtZgOEwTp1+EZBWEMjDICaklLJQo
+CUkA0uC4zwgKXwtKGb+h7AFrcWtyP2P90HVaMz49FGiYJsxyLbTEJWJQmePD
+Jiy5Shlw7fdiqBmzo2g2dsKVackBC+QAW2ZcngSReDfFkfoJyB1TaJryc5Yf
+vYJ1DRRXDVAGtGJ7iU+PcG5OGzAIExdhprXBmtl4AOM7g1Mg2qGFo3MBUFyg
+a4tiI/XBoHzWFWrVNNmbUBVDiRC3xdeDcvm3K4FeWqpM2hZf48kIF1YqQ7TF
+NF38K4rSxAcapQzZFheEZQJ10GBl6LaY/IYfRNUgZXJvfJl64wTshPmuvZjW
+6bwB0rLrWEjLjiktLDuuNLDsmNLCsuNJA8uOKQ0su+IMR/psx7HfsitwtM92
+GLstuwJFny3/LnOqNLstu+IEZZ8t//57dtUcySo3iWiFju6zRa1wOf0NXMRn
+eyat0MF4N63x2SxRK/SDcRwnSj6bj0vN/O6zFdM6F4JyIZbD72NeVb4b3si8
+qlLmVuYV7ULQ3Mu8yrgQBHczr3IuxGIgdc2OvAuRDySvmVHjQmw3r/iz0by6
+BVvMq06n0+mk/AGNXpqF
+       "], {{0, 0}, {94, 51}}, {0, 255},
+       ColorFunction->RGBColor],
+      ImageSize->{94, 51},
+      PlotRange->{{0, 94}, {0, 51}}]}
+   },
+   ColumnsEqual->False,
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+   RowsEqual->False],
+  "Column"]], "Output",
+ CellChangeTimes->{
+  3.440782559171875*^9, 3.4407837496875*^9, {3.440847327921875*^9, 
+   3.440847362671875*^9}, {3.440929506140625*^9, 3.440929531390625*^9}, 
+   3.44092961596875*^9, 3.440929700921875*^9, 3.44093521015625*^9, 
+   3.44093534109375*^9, 3.44093547253125*^9, 3.440936488140625*^9, 
+   3.44093766796875*^9, 3.440938115875*^9, 3.440938232453125*^9, 
+   3.4409382655625*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Pisanje formula", "Section",
+ CellChangeTimes->{{3.44078259953125*^9, 3.440782602*^9}}],
+
+Cell[TextData[{
+ "Kad su nam aksiomi samo propozicionalne varijable (",
+ Cell[BoxData[
+  FormBox["P", TraditionalForm]]],
+ ", ",
+ Cell[BoxData[
+  FormBox["Q", TraditionalForm]]],
+ ", ...), lako ih je napisati kao stringove (\"P\", \"Q\", ...). No kako \
+pisati ostale simbole u formulama koje su kompliciranije? Zagrade su uobi\
+\[CHacek]ajene zagrade na tipkovnici, a za logi\[CHacek]ke veznike \
+mo\:017eemo koristiti sljede\[CAcute]e znakove:"
+}], "Text",
+ CellChangeTimes->{{3.440782609609375*^9, 3.440782642484375*^9}, {
+  3.440782695890625*^9, 3.440782731265625*^9}, {3.44078276996875*^9, 
+  3.440782835625*^9}}],
+
+Cell[TextData[Cell[BoxData[
+ FormBox[GridBox[{
+    {"!", 
+     RowBox[{"za", " ", "negaciju"}]},
+    {"&", 
+     RowBox[{"za", " ", "konjunkciju"}]},
+    {"v", 
+     RowBox[{"za", " ", "disjunkciju"}]},
+    {">", 
+     RowBox[{"za", " ", "kondicional"}]},
+    {"=", 
+     RowBox[{"za", " ", "bikondicional"}]}
+   }], TraditionalForm]]]], "Text",
+ CellChangeTimes->{{3.440782851890625*^9, 3.44078289421875*^9}}],
+
+Cell[TextData[{
+ "Na primjer, da bismo uveli aksiom ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"P", "\[Rule]", "Q"}], ")"}], "\[And]", "R"}], 
+   TraditionalForm]]],
+ ", mo\:017eemo napisati"
+}], "Text",
+ CellChangeTimes->{{3.44078303684375*^9, 3.44078304075*^9}, {
+  3.44078321815625*^9, 3.440783231390625*^9}, {3.44078326253125*^9, 
+  3.4407832958125*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", "\"\<(P>Q)&R\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.44078329640625*^9, 3.440783305515625*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"(P\[Rule]Q)\[And]R\"\>",
+    Row[{"(P\[Rule]Q)\[And]R"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"(P\[Rule]Q)\[And]R\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"(P\[Rule]Q)\[And]R"}, ","], " ; ", $CellContext`\[EmptySet], 
+    " \[RightTee] ", "(P\[Rule]Q)\[And]R", "    ", ""}]]], "Output",
+ CellChangeTimes->{
+  3.440783306484375*^9, 3.44078374971875*^9, {3.4408473279375*^9, 
+   3.440847362703125*^9}, 3.44092953528125*^9, 3.440929616*^9, 
+   3.4409297009375*^9, 3.4409352101875*^9, 3.440935341125*^9, 
+   3.4409354725625*^9, 3.440936488171875*^9, 3.440937667984375*^9, 
+   3.44093811590625*^9, 3.440938232484375*^9, 3.440938265578125*^9}]
+}, Open  ]],
+
+Cell["\<\
+Sada s njim mo\:017eemo ne\[SHacek]to raditi, na primjer eliminirati \
+konjunkciju\
+\>", "Text",
+ CellChangeTimes->{{3.440783411109375*^9, 3.44078343409375*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"1", ",", "%9"}], "]"}]], "Input",
+ CellChangeTimes->{{3.44078343534375*^9, 3.44078343996875*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"(P\[Rule]Q)\[And]R\"\>",
+    Row[{"(P\[Rule]Q)\[And]R"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\[Rule]Q\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(E\[And])\"\>"}],
+  Row[{
+    Row[{"(P\[Rule]Q)\[And]R"}, ","], " ; ", $CellContext`\[EmptySet], 
+    " \[RightTee] ", "P\[Rule]Q", "    ", "(E\[And])"}]]], "Output",
+ CellChangeTimes->{
+  3.440783440421875*^9, 3.44078374975*^9, {3.440847327953125*^9, 
+   3.44084736271875*^9}, 3.44092954046875*^9, 3.440929616015625*^9, 
+   3.44092970096875*^9, 3.440935210203125*^9, 3.440935341140625*^9, 
+   3.440935472578125*^9, 3.4409364881875*^9, 3.440937668015625*^9, 
+   3.440938115921875*^9, 3.4409382325*^9, 3.440938265609375*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "ili \[CHacek]ak eliminirati ovaj kondicional, koriste\[CAcute]i ",
+ Cell[BoxData[
+  FormBox["%3", TraditionalForm]]],
+ " odozgo:"
+}], "Text",
+ CellChangeTimes->{{3.440783448921875*^9, 3.440783475671875*^9}, {
+  3.44078384009375*^9, 3.440783840828125*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%3", ",", "%10"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440783478828125*^9, 3.44078350809375*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox[
+    RowBox[{"\<\"P\"\>", ",", "\<\"(P\[Rule]Q)\[And]R\"\>"}],
+    Row[{"P", "(P\[Rule]Q)\[And]R"}, ","]], 
+   "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"Q\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(E\[Rule])\"\>"}],
+  Row[{
+    Row[{"P", "(P\[Rule]Q)\[And]R"}, ","], " ; ", $CellContext`\[EmptySet], 
+    " \[RightTee] ", "Q", "    ", "(E\[Rule])"}]]], "Output",
+ CellChangeTimes->{{3.440783486*^9, 3.4407835085625*^9}, 
+   3.440783749765625*^9, {3.440847327984375*^9, 3.440847362734375*^9}, 
+   3.44092954921875*^9, 3.440929616046875*^9, 3.440929700984375*^9, 
+   3.440935210234375*^9, 3.440935341171875*^9, 3.440935472609375*^9, 
+   3.44093648821875*^9, 3.44093766803125*^9, 3.440938115953125*^9, 
+   3.440938232515625*^9, 3.440938265640625*^9}]
+}, Open  ]],
+
+Cell["\<\
+Redoslijed argumenata je bitan: pri eliminaciji kondicionala, drugi argument \
+mora biti kondicional kojeg \:017eelimo eliminirati (a prvi argument mora \
+biti njegov antecedens).\
+\>", "Text",
+ CellChangeTimes->{{3.44078386865625*^9, 3.440783897484375*^9}, {
+  3.440783973984375*^9, 3.440784029625*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Kori\[SHacek]tenje privremenih pretpostavki\
+\>", "Section",
+ CellChangeTimes->{{3.4407841056875*^9, 3.4407841120625*^9}}],
+
+Cell[TextData[{
+ "Privremene pretpostavke uvodimo tako da funkciji ",
+ Cell[BoxData[
+  FormBox["d", TraditionalForm]]],
+ " damo kao drugi argument prirodni broj pod kojim \:017eelimo uvesti \
+pretpostavku."
+}], "Text",
+ CellChangeTimes->{{3.440784382296875*^9, 3.440784418984375*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"\"\<P&Q\>\"", ",", "1"}], "]"}]], "Input",
+ CellChangeTimes->{{3.44078453990625*^9, 3.440784548015625*^9}, {
+  3.44078476759375*^9, 3.440784768140625*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    TagBox[
+     SuperscriptBox[
+      TagBox[
+       OverscriptBox["\<\"P\[And]Q\"\>", "_"],
+       Power,
+       Editable->True,
+       Selectable->True], 
+      TagBox["1",
+       Power,
+       Editable->True,
+       Selectable->True]],
+     InterpretTemplate[Superscript[#, #2]& ],
+     Editable->False,
+     Selectable->False],
+    Row[{
+      Superscript[
+       OverBar["P\[And]Q"], 1]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\[And]Q\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["P\[And]Q"], 1]}, ","], " \[RightTee] ", "P\[And]Q", "    ", 
+    ""}]]], "Output",
+ CellChangeTimes->{
+  3.4407845511875*^9, 3.440784773296875*^9, {3.440847328*^9, 
+   3.440847362765625*^9}, 3.4409295731875*^9, 3.4409296160625*^9, 
+   3.440929701015625*^9, 3.44093521025*^9, 3.4409353411875*^9, 
+   3.440935472640625*^9, 3.440936488234375*^9, 3.4409376680625*^9, 
+   3.44093811596875*^9, 3.440938232546875*^9, 3.44093826565625*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "Nemamo aksioma, ve\[CAcute] samo jednu privremenu pretpostavku, ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"P", "\[And]", "Q"}], TraditionalForm]]],
+ ", i s njom mo\:017eemo raditi dalje, na primjer eliminirati konjunkciju:"
+}], "Text",
+ CellChangeTimes->{{3.440847201984375*^9, 3.44084721921875*^9}, {
+  3.44084726253125*^9, 3.440847287140625*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"2", ",", "%12"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440847288671875*^9, 3.440847354890625*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    TagBox[
+     SuperscriptBox[
+      TagBox[
+       OverscriptBox["\<\"P\[And]Q\"\>", "_"],
+       Power,
+       Editable->True,
+       Selectable->True], 
+      TagBox["1",
+       Power,
+       Editable->True,
+       Selectable->True]],
+     InterpretTemplate[Superscript[#, #2]& ],
+     Editable->False,
+     Selectable->False],
+    Row[{
+      Superscript[
+       OverBar["P\[And]Q"], 1]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"Q\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(E\[And])\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["P\[And]Q"], 1]}, ","], " \[RightTee] ", "Q", "    ", 
+    "(E\[And])"}]]], "Output",
+ CellChangeTimes->{{3.440847341640625*^9, 3.44084736278125*^9}, 
+   3.440929576234375*^9, 3.440929616078125*^9, 3.44092970103125*^9, 
+   3.44093521028125*^9, 3.44093534121875*^9, 3.44093547265625*^9, 
+   3.440936488265625*^9, 3.44093766809375*^9, 3.440938116*^9, 
+   3.4409382325625*^9, 3.4409382656875*^9}]
+}, Open  ]],
+
+Cell["\<\
+No da bismo zavr\[SHacek]ili dokaz, moramo zatvoriti na\[SHacek]u privremenu \
+pretpostavku, na primjer uvo\:0111enjem kondicionala (drugi argument je redni \
+broj pretpostavke koju \:017eelimo zatvoriti):\
+\>", "Text",
+ CellChangeTimes->{{3.4408503598125*^9, 3.44085040859375*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%13", ",", "1"}], "]"}]], "Input",
+ CellChangeTimes->{{3.44085040928125*^9, 3.4408504133125*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    StyleBox["1",
+     StripOnInput->False,
+     FontVariations->{"StrikeThrough"->True}],
+    Row[{
+      Style[1, FontVariations -> {"StrikeThrough" -> True}]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"(P\[And]Q)\[Rule]Q\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(I\[Rule])\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Style[1, FontVariations -> {"StrikeThrough" -> True}]}, ","], 
+    " \[RightTee] ", "(P\[And]Q)\[Rule]Q", "    ", "(I\[Rule])"}]]], "Output",\
+
+ CellChangeTimes->{3.44085041390625*^9, 3.440929579125*^9, 
+  3.440929616109375*^9, 3.4409297010625*^9, 3.440935210296875*^9, 
+  3.44093534125*^9, 3.4409354726875*^9, 3.440936488296875*^9, 
+  3.440937668109375*^9, 3.440938116015625*^9, 3.44093823259375*^9, 
+  3.440938265734375*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "Vidimo da je pretpostavka zatvorena, no i dalje postoji zapis da je bila \
+kori\[SHacek]tena, kako bi nas sustav podsjetio na to da je broj 1 za \
+privremene pretpostavke potro\[SHacek]en, te da moramo koristiti druge \
+brojeve za nove privremene pretpostavke. Zavr\[SHacek]avanjem dokaza (",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"d", "[", 
+    RowBox[{"4", ",", "%"}], "]"}], TraditionalForm]]],
+ "), taj zapis \"prekri\:017eene jedinice\" \[CAcute]e nestati:"
+}], "Text",
+ CellChangeTimes->{{3.440850428234375*^9, 3.440850522359375*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"4", ",", "%14"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440850523*^9, 3.440850525765625*^9}, {
+  3.44092969603125*^9, 3.440929696109375*^9}}],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     InterpretationBox[
+      RowBox[{
+       InterpretationBox["\[Null]",
+        Row[{}, ","]], "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+       "\[InvisibleSpace]", "\<\"(P\[And]Q)\[Rule]Q\"\>"}],
+      Row[{
+        Row[{}, ","], " \[RightTee] ", "(P\[And]Q)\[Rule]Q"}]]},
+    {
+     GraphicsBox[RasterBox[CompressedData["
+1:eJztmt1xwyAMx7nrJJ2iK/i5I2SBvvi9i/guozCKR3FtCFgIgQO2Q63od5fL
+FyjhHyFkRZ+3n+/bh1Lqa7718215PAkCO8ahH8byabpX3WDv1fxorLJFGuGD
+HmqXNHRKGUkWaXptXxyHQe82woRAWuM+Fr9MpL3Xbnyogv0tLy4SMGWEBdhr
+58Vi5wnEGrW244dujQMd0ivvubr3o9NGGBDpQGgLB7mfQvfQz9AkrTV8S1Es
+47NGrg+lrV+/OWUMTi13j3UInm/4rY8KWSMcABvUABYI12r8dRWtXlvwea20
+rcyLKiZHRxUQFOzZWbAejAy3Mx6pp6fIGDmR+rzIUpIIhZ4LtEVHOoyik8md
+Hu8uYWRVBW+ELCkjz09HIXybUNrAwhoD4fgoMywRF7g5yMG2v6wfDDQp3m+U
+kUKKQgnptRsW4rhZlsJfmBJtaVnC0yKd2DjQFmbMsdrGRFEhMEL+EFdhU6+y
+mEAdBzkLxASJCQmogFtm4T2ktWlGYVpMOOJ+z+eITTPKFgtzme0cLDNZEBjD
+vP7fGM71/7awrv+3hXX9vynM6/8tYV//b8hJ2lZm2cyS81Pq//XlfWbX6zvr
+/wRA2rDg7lKRVNvDxE7cI+r/gblQORhl3Lag2x7sM2biHgoWh4zgRNuD430K
+++XQ2kaBHLc9pKb/Z17/XwAqcrqrPhxwUNuD40raNgD/VU36bdT24F/Up365
+qxN4Loy3KPbGofVtCvv1+IuAKAfLSsfs2kF4GVInPxOpk5dwRLO9kOKAZnsh
+wRHN9gLNAc32QoIDmu2FBPub7YUUe5rtQTwRL47Y3Wxf2kgplCDapvit5X6/
+Wwui7SmYWC3anoQJwaKtIAiC0Iw/4ROfIQ==
+       "], {{0, 0}, {116, 55}}, {0, 255},
+       ColorFunction->RGBColor],
+      ImageSize->{116, 55},
+      PlotRange->{{0, 116}, {0, 55}}]}
+   },
+   ColumnsEqual->False,
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+   RowsEqual->False],
+  "Column"]], "Output",
+ CellChangeTimes->{
+  3.440850526625*^9, {3.4409295875*^9, 3.440929616171875*^9}, {
+   3.440929696921875*^9, 3.440929701125*^9}, 3.440935210375*^9, 
+   3.440935341328125*^9, 3.440935472765625*^9, 3.440936488359375*^9, 
+   3.4409376681875*^9, 3.440938116109375*^9, 3.440938232671875*^9, 
+   3.440938265890625*^9}]
+}, Open  ]],
+
+Cell["\<\
+Naravno, mo\:017eemo imati i vi\[SHacek]e privremenih pretpostavki, samo \
+moramo paziti da su pod razli\[CHacek]itim brojevima (jer u jednom izvodu \
+fiksnu pretpostavku mo\:017eemo samo jednom zatvoriti).\
+\>", "Text",
+ CellChangeTimes->{{3.440929744390625*^9, 3.44092978503125*^9}, {
+  3.44093339784375*^9, 3.4409334058125*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"\"\<P\>\"", ",", "1"}], "]"}]], "Input",
+ CellChangeTimes->{{3.4409297959375*^9, 3.440929801734375*^9}, {
+  3.440933323546875*^9, 3.4409333348125*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    TagBox[
+     SuperscriptBox[
+      TagBox[
+       OverscriptBox["\<\"P\"\>", "_"],
+       Power,
+       Editable->True,
+       Selectable->True], 
+      TagBox["1",
+       Power,
+       Editable->True,
+       Selectable->True]],
+     InterpretTemplate[Superscript[#, #2]& ],
+     Editable->False,
+     Selectable->False],
+    Row[{
+      Superscript[
+       OverBar["P"], 1]}, ","]], "\[InvisibleSpace]", "\<\" \[RightTee] \"\>",
+    "\[InvisibleSpace]", "\<\"P\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["P"], 1]}, ","], " \[RightTee] ", "P", "    ", ""}]]], "Output",\
+
+ CellChangeTimes->{3.4409333254375*^9, 3.44093521040625*^9, 
+  3.440935341359375*^9, 3.440935472796875*^9, 3.440936488390625*^9, 
+  3.44093766821875*^9, 3.440938116125*^9, 3.440938232703125*^9, 
+  3.440938265921875*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"\"\<Q\>\"", ",", "2"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440933325828125*^9, 3.44093333896875*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    TagBox[
+     SuperscriptBox[
+      TagBox[
+       OverscriptBox["\<\"Q\"\>", "_"],
+       Power,
+       Editable->True,
+       Selectable->True], 
+      TagBox["2",
+       Power,
+       Editable->True,
+       Selectable->True]],
+     InterpretTemplate[Superscript[#, #2]& ],
+     Editable->False,
+     Selectable->False],
+    Row[{
+      Superscript[
+       OverBar["Q"], 2]}, ","]], "\[InvisibleSpace]", "\<\" \[RightTee] \"\>",
+    "\[InvisibleSpace]", "\<\"Q\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["Q"], 2]}, ","], " \[RightTee] ", "Q", "    ", ""}]]], "Output",\
+
+ CellChangeTimes->{3.44093334028125*^9, 3.440935210421875*^9, 
+  3.440935341375*^9, 3.4409354728125*^9, 3.440936488421875*^9, 
+  3.44093766825*^9, 3.44093811615625*^9, 3.44093823271875*^9, 
+  3.440938265953125*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"3", ",", "%16", ",", "%17"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440933342359375*^9, 3.440933354953125*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    RowBox[{
+     TagBox[
+      SuperscriptBox[
+       TagBox[
+        OverscriptBox["\<\"P\"\>", "_"],
+        Power,
+        Editable->True,
+        Selectable->True], 
+       TagBox["1",
+        Power,
+        Editable->True,
+        Selectable->True]],
+      InterpretTemplate[Superscript[#, #2]& ],
+      Editable->False,
+      Selectable->False], ",", 
+     TagBox[
+      SuperscriptBox[
+       TagBox[
+        OverscriptBox["\<\"Q\"\>", "_"],
+        Power,
+        Editable->True,
+        Selectable->True], 
+       TagBox["2",
+        Power,
+        Editable->True,
+        Selectable->True]],
+      InterpretTemplate[Superscript[#, #2]& ],
+      Editable->False,
+      Selectable->False]}],
+    Row[{
+      Superscript[
+       OverBar["P"], 1], 
+      Superscript[
+       OverBar["Q"], 2]}, ","]], "\[InvisibleSpace]", "\<\" \[RightTee] \"\>",
+    "\[InvisibleSpace]", "\<\"P\[And]Q\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(I\[And])\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["P"], 1], 
+      Superscript[
+       OverBar["Q"], 2]}, ","], " \[RightTee] ", "P\[And]Q", "    ", 
+    "(I\[And])"}]]], "Output",
+ CellChangeTimes->{3.440933355234375*^9, 3.440935210453125*^9, 
+  3.44093534140625*^9, 3.44093547284375*^9, 3.4409364884375*^9, 
+  3.440937668265625*^9, 3.440938116171875*^9, 3.440938232734375*^9, 
+  3.44093826596875*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%18", ",", "1"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440933360046875*^9, 3.44093336640625*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    RowBox[{
+     StyleBox["1",
+      StripOnInput->False,
+      FontVariations->{"StrikeThrough"->True}], ",", 
+     TagBox[
+      SuperscriptBox[
+       TagBox[
+        OverscriptBox["\<\"Q\"\>", "_"],
+        Power,
+        Editable->True,
+        Selectable->True], 
+       TagBox["2",
+        Power,
+        Editable->True,
+        Selectable->True]],
+      InterpretTemplate[Superscript[#, #2]& ],
+      Editable->False,
+      Selectable->False]}],
+    Row[{
+      Style[1, FontVariations -> {"StrikeThrough" -> True}], 
+      Superscript[
+       OverBar["Q"], 2]}, ","]], "\[InvisibleSpace]", "\<\" \[RightTee] \"\>",
+    "\[InvisibleSpace]", "\<\"P\[Rule](P\[And]Q)\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(I\[Rule])\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Style[1, FontVariations -> {"StrikeThrough" -> True}], 
+      Superscript[
+       OverBar["Q"], 2]}, ","], " \[RightTee] ", "P\[Rule](P\[And]Q)", "    ",
+     "(I\[Rule])"}]]], "Output",
+ CellChangeTimes->{3.440933367203125*^9, 3.44093521046875*^9, 
+  3.440935341421875*^9, 3.440935472859375*^9, 3.44093648846875*^9, 
+  3.440937668296875*^9, 3.440938116203125*^9, 3.440938232765625*^9, 
+  3.440938266*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%19", ",", "2"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440933369125*^9, 3.4409333721875*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    RowBox[{
+     StyleBox["1",
+      StripOnInput->False,
+      FontVariations->{"StrikeThrough"->True}], ",", 
+     StyleBox["2",
+      StripOnInput->False,
+      FontVariations->{"StrikeThrough"->True}]}],
+    Row[{
+      Style[1, FontVariations -> {"StrikeThrough" -> True}], 
+      Style[2, FontVariations -> {"StrikeThrough" -> True}]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"Q\[Rule](P\[Rule](P\[And]Q))\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(I\[Rule])\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Style[1, FontVariations -> {"StrikeThrough" -> True}], 
+      Style[2, FontVariations -> {"StrikeThrough" -> True}]}, ","], 
+    " \[RightTee] ", "Q\[Rule](P\[Rule](P\[And]Q))", "    ", 
+    "(I\[Rule])"}]]], "Output",
+ CellChangeTimes->{3.440933372625*^9, 3.4409352105*^9, 3.440935341453125*^9, 
+  3.440935472890625*^9, 3.4409364885*^9, 3.4409376683125*^9, 
+  3.44093811621875*^9, 3.440938232796875*^9, 3.44093826603125*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"4", ",", "%20"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440933374765625*^9, 3.44093338115625*^9}}],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     InterpretationBox[
+      RowBox[{
+       InterpretationBox["\[Null]",
+        Row[{}, ","]], "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+       "\[InvisibleSpace]", "\<\"Q\[Rule](P\[Rule](P\[And]Q))\"\>"}],
+      Row[{
+        Row[{}, ","], " \[RightTee] ", "Q\[Rule](P\[Rule](P\[And]Q))"}]]},
+    {
+     GraphicsBox[RasterBox[CompressedData["
+1:eJztnduN6yAQhi1tJdtNpH3bEraB8+JyXMR24FJcStaX45jLAMPFGE/+T4qS
+OEAIM4wZ/Mv5/Pn3/fPRdd3X/PidH8vrJwAAnMfYd49he+7mVxO33jT0/MKF
+GyH7TLZVpJdvxvDounVcl/HtR16lcSgwzumNkH2ehmG0SpIHgZPp/9A6gwPp
+JJol12m64XKntEYMf3mZ1tVnOEQ2w+OItw+XOcfe+MCc2HPdYGBJaUSz5TSO
+U6DPcIg8xl6dYJtBjsmno4y7NcKWKYs0ohfa3Yfq8/GDRrMF10FgY1rAMc2t
+YE+Z8mXydaVXrpHdmPuzt8+ID1mw/MGK88QxpSLtUxmNrHHhsKkwf8hKgIpn
+T3rsNd/6KporPcV+pRuZ7dkrJT19vp875KZpxX/csSBbwjV//0Gf3IopI3JW
+diPGAsDVZyoI0QfLYy6YeF+qu4PWBHnatQe3vLe/Er2IzainFquUVJE9EnmN
+UH2+ej9qsWak65HRIZCq2WfZhsPfm7O4qWM5TUGbUl8PBdM0ZE9Ns53BuGVD
+/mDjT9NI5wHnwTNzeHNuNy5R0FebqIDzRfssOQ+vILGAYHvTCtyhVY6sZ7/8
+yoCY8FH+UCl7AimkZGpqAhTONz2VAQDgCk6XLYE7UUO2BKrTtmwJ1Kdp2RKo
+TtuyJVCbpmVLoDpNy5Yq0ZYA6Vpali1VojkB0pU0LFtKQF/73FeAdBUNy5Yy
+iLvcAwGSdGL8AQIk+ZT1B5twwtUwpG/fmuBPzpcHQIAkiTj5EARIctnylzhr
+QoAkmS1/iTMQBEgAAFCA1JtHAakk3TwK3IgSiiYgiQKKJiCIEoomIIcCiiYg
+iAKKpoTvTNq5wYZPBfIVTdGky5BwfeB0shVN0QRlSK4E5wmHOJtsRVPCV4Zl
+SHSCY38E7g9LdkIkODsQIMmCKUMyExx/dZBAKVWSn2A3mDIkI8HZgT+IgylD
+MhKc10GzHLg7XBmSvVSAAEkkiTIk7EcBcCKMm34EG4AkRhLZ16EgiRFFpj9A
+EiMMxk0/PEASI43gTT88QBIjj7SbflhVqffghthXt5UziN+88AdxOK9us0xb
+UhIDmoY51W1JjL4+nU7sIjgDJUKo5ov4kxaz9noEJw4xrMuAzKVA5F+DgaaJ
+mOGO8LJ+BN0SULIMLC/Byh4zsIYAAAAAAAAAgDflD9xiiOc=
+       "], {{0, 0}, {176, 75}}, {0, 255},
+       ColorFunction->RGBColor],
+      ImageSize->{176, 75},
+      PlotRange->{{0, 176}, {0, 75}}]}
+   },
+   ColumnsEqual->False,
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+   RowsEqual->False],
+  "Column"]], "Output",
+ CellChangeTimes->{3.440933381921875*^9, 3.440935210625*^9, 
+  3.4409353415625*^9, 3.440935473*^9, 3.440936488609375*^9, 
+  3.4409376684375*^9, 3.44093811634375*^9, 3.44093823290625*^9, 
+  3.440938266140625*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Eliminacija disjunkcije", "Section",
+ CellChangeTimes->{{3.440933470125*^9, 3.440933473484375*^9}}],
+
+Cell[TextData[{
+ "Kori\[SHacek]tenje ovog pravila sli\[CHacek]no je kao kod ostalih pravila, \
+samo trebamo funkciji ",
+ Cell[BoxData[
+  FormBox["d", TraditionalForm]]],
+ " dati tri izvoda kao argumente. Prvi argument mora biti izvod za formulu \
+oblika ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"A", "\[Or]", "B"}], TraditionalForm]]],
+ ", drugi mora biti izvod za \"formulu\" ",
+ Cell[BoxData[
+  FormBox["C", TraditionalForm]]],
+ " iz privremene pretpostavke ",
+ Cell[BoxData[
+  FormBox["A", TraditionalForm]]],
+ " pod brojem ",
+ Cell[BoxData[
+  FormBox["m", TraditionalForm]]],
+ ", dok tre\[CAcute]i mora biti izvod za ",
+ Cell[BoxData[
+  FormBox["C", TraditionalForm]]],
+ " iz privremene pretpostavke ",
+ Cell[BoxData[
+  FormBox["B", TraditionalForm]]],
+ " pod brojem ",
+ Cell[BoxData[
+  FormBox["n", TraditionalForm]]],
+ ". \"Formula\" ",
+ Cell[BoxData[
+  FormBox["C", TraditionalForm]]],
+ " je gore pod navodnicima jer mo\:017ee biti i ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"C", "=", "\[UpTee]"}], TraditionalForm]]],
+ ". Redoslijed je vrlo bitan! (Naravno, izvesti te korake mo\:017eemo bilo \
+kojim redom, samo moramo paziti da ih ispravnim redom navedemo za funkciju ",
+ Cell[BoxData[
+  FormBox["d", TraditionalForm]]],
+ "). Tako\:0111er, ",
+ Cell[BoxData[
+  FormBox["m", TraditionalForm]]],
+ " ne smije biti kori\[SHacek]ten kao broj privremene pretpostavke u prvom i \
+tre\[CAcute]em izvodu, a ",
+ Cell[BoxData[
+  FormBox["n", TraditionalForm]]],
+ " ne smije biti kori\[SHacek]ten kao broj privremene pretpostavke u prvom i \
+drugom izvodu."
+}], "Text",
+ CellChangeTimes->{{3.4409335029375*^9, 3.440933754703125*^9}, {
+  3.44093463421875*^9, 3.44093465584375*^9}}],
+
+Cell[TextData[{
+ "Recimo da trebamo iz ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"P", "\[Rule]", "R"}], ")"}], "\[Or]", 
+    RowBox[{"(", 
+     RowBox[{"Q", "\[Rule]", "R"}], ")"}]}], TraditionalForm]]],
+ " izvesti ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"P", "\[And]", "Q"}], ")"}], "\[Rule]", "R"}], 
+   TraditionalForm]]],
+ ". Prvo uzmimo privremenu pretpostavku ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"P", "\[Rule]", "R"}], TraditionalForm]]]
+}], "Text",
+ CellChangeTimes->{{3.440933857515625*^9, 3.44093393803125*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"\"\<P>R\>\"", ",", "1"}], "]"}]], "Input",
+ CellChangeTimes->{{3.44093394021875*^9, 3.440933947921875*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    TagBox[
+     SuperscriptBox[
+      TagBox[
+       OverscriptBox["\<\"P\[Rule]R\"\>", "_"],
+       Power,
+       Editable->True,
+       Selectable->True], 
+      TagBox["1",
+       Power,
+       Editable->True,
+       Selectable->True]],
+     InterpretTemplate[Superscript[#, #2]& ],
+     Editable->False,
+     Selectable->False],
+    Row[{
+      Superscript[
+       OverBar["P\[Rule]R"], 1]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\[Rule]R\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["P\[Rule]R"], 1]}, ","], " \[RightTee] ", "P\[Rule]R", "    ", 
+    ""}]]], "Output",
+ CellChangeTimes->{3.44093394959375*^9, 3.440935210640625*^9, 
+  3.44093534159375*^9, 3.44093547303125*^9, 3.440936488640625*^9, 
+  3.440937668453125*^9, 3.440938116375*^9, 3.440938232921875*^9, 
+  3.440938266171875*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "i iz toga izvedimo ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"P", "\[And]", "Q"}], ")"}], "\[Rule]", "R"}], 
+   TraditionalForm]]],
+ ":"
+}], "Text",
+ CellChangeTimes->{{3.4409339529375*^9, 3.44093396934375*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"\"\<P&Q\>\"", ",", "2"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440933974890625*^9, 3.440933988203125*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    TagBox[
+     SuperscriptBox[
+      TagBox[
+       OverscriptBox["\<\"P\[And]Q\"\>", "_"],
+       Power,
+       Editable->True,
+       Selectable->True], 
+      TagBox["2",
+       Power,
+       Editable->True,
+       Selectable->True]],
+     InterpretTemplate[Superscript[#, #2]& ],
+     Editable->False,
+     Selectable->False],
+    Row[{
+      Superscript[
+       OverBar["P\[And]Q"], 2]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\[And]Q\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["P\[And]Q"], 2]}, ","], " \[RightTee] ", "P\[And]Q", "    ", 
+    ""}]]], "Output",
+ CellChangeTimes->{3.440933989453125*^9, 3.440935210671875*^9, 
+  3.440935341609375*^9, 3.440935473046875*^9, 3.440936488671875*^9, 
+  3.440937668484375*^9, 3.440938116390625*^9, 3.440938232953125*^9, 
+  3.4409382661875*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"1", ",", "%23"}], "]"}]], "Input",
+ CellChangeTimes->{{3.4409339929375*^9, 3.440933997984375*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    TagBox[
+     SuperscriptBox[
+      TagBox[
+       OverscriptBox["\<\"P\[And]Q\"\>", "_"],
+       Power,
+       Editable->True,
+       Selectable->True], 
+      TagBox["2",
+       Power,
+       Editable->True,
+       Selectable->True]],
+     InterpretTemplate[Superscript[#, #2]& ],
+     Editable->False,
+     Selectable->False],
+    Row[{
+      Superscript[
+       OverBar["P\[And]Q"], 2]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(E\[And])\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["P\[And]Q"], 2]}, ","], " \[RightTee] ", "P", "    ", 
+    "(E\[And])"}]]], "Output",
+ CellChangeTimes->{3.440933998453125*^9, 3.440935210703125*^9, 
+  3.440935341640625*^9, 3.440935473078125*^9, 3.4409364886875*^9, 
+  3.4409376685*^9, 3.440938116421875*^9, 3.44093823296875*^9, 
+  3.44093826621875*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%24", ",", "%22"}], "]"}]], "Input",
+ CellChangeTimes->{{3.4409340065625*^9, 3.440934013859375*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    RowBox[{
+     TagBox[
+      SuperscriptBox[
+       TagBox[
+        OverscriptBox["\<\"P\[Rule]R\"\>", "_"],
+        Power,
+        Editable->True,
+        Selectable->True], 
+       TagBox["1",
+        Power,
+        Editable->True,
+        Selectable->True]],
+      InterpretTemplate[Superscript[#, #2]& ],
+      Editable->False,
+      Selectable->False], ",", 
+     TagBox[
+      SuperscriptBox[
+       TagBox[
+        OverscriptBox["\<\"P\[And]Q\"\>", "_"],
+        Power,
+        Editable->True,
+        Selectable->True], 
+       TagBox["2",
+        Power,
+        Editable->True,
+        Selectable->True]],
+      InterpretTemplate[Superscript[#, #2]& ],
+      Editable->False,
+      Selectable->False]}],
+    Row[{
+      Superscript[
+       OverBar["P\[Rule]R"], 1], 
+      Superscript[
+       OverBar["P\[And]Q"], 2]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"R\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(E\[Rule])\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["P\[Rule]R"], 1], 
+      Superscript[
+       OverBar["P\[And]Q"], 2]}, ","], " \[RightTee] ", "R", "    ", 
+    "(E\[Rule])"}]]], "Output",
+ CellChangeTimes->{3.44093401625*^9, 3.440935210734375*^9, 
+  3.44093534165625*^9, 3.44093547309375*^9, 3.44093648871875*^9, 
+  3.44093766853125*^9, 3.4409381164375*^9, 3.440938233*^9, 3.44093826625*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%25", ",", "2"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440934033125*^9, 3.4409340399375*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    RowBox[{
+     StyleBox["2",
+      StripOnInput->False,
+      FontVariations->{"StrikeThrough"->True}], ",", 
+     TagBox[
+      SuperscriptBox[
+       TagBox[
+        OverscriptBox["\<\"P\[Rule]R\"\>", "_"],
+        Power,
+        Editable->True,
+        Selectable->True], 
+       TagBox["1",
+        Power,
+        Editable->True,
+        Selectable->True]],
+      InterpretTemplate[Superscript[#, #2]& ],
+      Editable->False,
+      Selectable->False]}],
+    Row[{
+      Style[2, FontVariations -> {"StrikeThrough" -> True}], 
+      Superscript[
+       OverBar["P\[Rule]R"], 1]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"(P\[And]Q)\[Rule]R\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(I\[Rule])\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Style[2, FontVariations -> {"StrikeThrough" -> True}], 
+      Superscript[
+       OverBar["P\[Rule]R"], 1]}, ","], " \[RightTee] ", "(P\[And]Q)\[Rule]R",
+     "    ", "(I\[Rule])"}]]], "Output",
+ CellChangeTimes->{3.440934040703125*^9, 3.44093521078125*^9, 
+  3.4409353416875*^9, 3.440935473125*^9, 3.44093648875*^9, 3.4409376685625*^9,
+   3.44093811646875*^9, 3.440938233015625*^9, 3.440938266265625*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "Zatim isto to napravimo s pretpostavkom ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"Q", "\[Rule]", "R"}], TraditionalForm]]],
+ " (umjesto brojeva 1 i 2 moramo koristiti nove; 1 ne smijemo koristiti zbog \
+gornjih pravila o ",
+ Cell[BoxData[
+  FormBox["m", TraditionalForm]]],
+ " i ",
+ Cell[BoxData[
+  FormBox["n", TraditionalForm]]],
+ ", a 2 jer je ve\[CAcute] zatvorena):"
+}], "Text",
+ CellChangeTimes->{{3.440934052109375*^9, 3.44093412353125*^9}, {
+  3.4409341928125*^9, 3.4409342068125*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"\"\<Q>R\>\"", ",", "3"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440934217328125*^9, 3.440934222984375*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    TagBox[
+     SuperscriptBox[
+      TagBox[
+       OverscriptBox["\<\"Q\[Rule]R\"\>", "_"],
+       Power,
+       Editable->True,
+       Selectable->True], 
+      TagBox["3",
+       Power,
+       Editable->True,
+       Selectable->True]],
+     InterpretTemplate[Superscript[#, #2]& ],
+     Editable->False,
+     Selectable->False],
+    Row[{
+      Superscript[
+       OverBar["Q\[Rule]R"], 3]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"Q\[Rule]R\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["Q\[Rule]R"], 3]}, ","], " \[RightTee] ", "Q\[Rule]R", "    ", 
+    ""}]]], "Output",
+ CellChangeTimes->{3.440934223953125*^9, 3.4409352108125*^9, 
+  3.440935341703125*^9, 3.44093547315625*^9, 3.440936488765625*^9, 
+  3.440937668578125*^9, 3.440938116484375*^9, 3.440938233046875*^9, 
+  3.440938266296875*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"\"\<P&Q\>\"", ",", "4"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440934228296875*^9, 3.440934236328125*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    TagBox[
+     SuperscriptBox[
+      TagBox[
+       OverscriptBox["\<\"P\[And]Q\"\>", "_"],
+       Power,
+       Editable->True,
+       Selectable->True], 
+      TagBox["4",
+       Power,
+       Editable->True,
+       Selectable->True]],
+     InterpretTemplate[Superscript[#, #2]& ],
+     Editable->False,
+     Selectable->False],
+    Row[{
+      Superscript[
+       OverBar["P\[And]Q"], 4]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\[And]Q\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["P\[And]Q"], 4]}, ","], " \[RightTee] ", "P\[And]Q", "    ", 
+    ""}]]], "Output",
+ CellChangeTimes->{3.44093434075*^9, 3.44093521084375*^9, 
+  3.440935341734375*^9, 3.440935473171875*^9, 3.440936488796875*^9, 
+  3.440937668609375*^9, 3.440938116515625*^9, 3.4409382330625*^9, 
+  3.440938266328125*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"2", ",", "%28"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440934341328125*^9, 3.440934349515625*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    TagBox[
+     SuperscriptBox[
+      TagBox[
+       OverscriptBox["\<\"P\[And]Q\"\>", "_"],
+       Power,
+       Editable->True,
+       Selectable->True], 
+      TagBox["4",
+       Power,
+       Editable->True,
+       Selectable->True]],
+     InterpretTemplate[Superscript[#, #2]& ],
+     Editable->False,
+     Selectable->False],
+    Row[{
+      Superscript[
+       OverBar["P\[And]Q"], 4]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"Q\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(E\[And])\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["P\[And]Q"], 4]}, ","], " \[RightTee] ", "Q", "    ", 
+    "(E\[And])"}]]], "Output",
+ CellChangeTimes->{3.440934350125*^9, 3.440935210859375*^9, 
+  3.440935341765625*^9, 3.440935473203125*^9, 3.4409364888125*^9, 
+  3.440937668625*^9, 3.440938116546875*^9, 3.44093823309375*^9, 
+  3.440938266359375*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%29", ",", "%27"}], "]"}]], "Input",
+ CellChangeTimes->{{3.4409343555625*^9, 3.440934361125*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    RowBox[{
+     TagBox[
+      SuperscriptBox[
+       TagBox[
+        OverscriptBox["\<\"Q\[Rule]R\"\>", "_"],
+        Power,
+        Editable->True,
+        Selectable->True], 
+       TagBox["3",
+        Power,
+        Editable->True,
+        Selectable->True]],
+      InterpretTemplate[Superscript[#, #2]& ],
+      Editable->False,
+      Selectable->False], ",", 
+     TagBox[
+      SuperscriptBox[
+       TagBox[
+        OverscriptBox["\<\"P\[And]Q\"\>", "_"],
+        Power,
+        Editable->True,
+        Selectable->True], 
+       TagBox["4",
+        Power,
+        Editable->True,
+        Selectable->True]],
+      InterpretTemplate[Superscript[#, #2]& ],
+      Editable->False,
+      Selectable->False]}],
+    Row[{
+      Superscript[
+       OverBar["Q\[Rule]R"], 3], 
+      Superscript[
+       OverBar["P\[And]Q"], 4]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"R\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(E\[Rule])\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["Q\[Rule]R"], 3], 
+      Superscript[
+       OverBar["P\[And]Q"], 4]}, ","], " \[RightTee] ", "R", "    ", 
+    "(E\[Rule])"}]]], "Output",
+ CellChangeTimes->{3.44093436246875*^9, 3.440935210890625*^9, 
+  3.440935341796875*^9, 3.440935473234375*^9, 3.44093648884375*^9, 
+  3.44093766865625*^9, 3.4409381165625*^9, 3.440938233125*^9, 
+  3.440938266375*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%30", ",", "4"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440934377015625*^9, 3.4409343840625*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    RowBox[{
+     StyleBox["4",
+      StripOnInput->False,
+      FontVariations->{"StrikeThrough"->True}], ",", 
+     TagBox[
+      SuperscriptBox[
+       TagBox[
+        OverscriptBox["\<\"Q\[Rule]R\"\>", "_"],
+        Power,
+        Editable->True,
+        Selectable->True], 
+       TagBox["3",
+        Power,
+        Editable->True,
+        Selectable->True]],
+      InterpretTemplate[Superscript[#, #2]& ],
+      Editable->False,
+      Selectable->False]}],
+    Row[{
+      Style[4, FontVariations -> {"StrikeThrough" -> True}], 
+      Superscript[
+       OverBar["Q\[Rule]R"], 3]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"(P\[And]Q)\[Rule]R\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(I\[Rule])\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Style[4, FontVariations -> {"StrikeThrough" -> True}], 
+      Superscript[
+       OverBar["Q\[Rule]R"], 3]}, ","], " \[RightTee] ", "(P\[And]Q)\[Rule]R",
+     "    ", "(I\[Rule])"}]]], "Output",
+ CellChangeTimes->{3.440934385046875*^9, 3.440935210921875*^9, 
+  3.44093534184375*^9, 3.44093547328125*^9, 3.440936488890625*^9, 
+  3.4409376686875*^9, 3.44093811659375*^9, 3.440938233140625*^9, 
+  3.44093826640625*^9}]
+}, Open  ]],
+
+Cell["Sad se pozovemo na svoj aksiom", "Text",
+ CellChangeTimes->{{3.440934391546875*^9, 3.440934401828125*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", "\"\<(P>R)v(Q>R)\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.440934403625*^9, 3.440934428203125*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"(P\[Rule]R)\[Or](Q\[Rule]R)\"\>",
+    Row[{"(P\[Rule]R)\[Or](Q\[Rule]R)"}, ","]], 
+   "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"(P\[Rule]R)\[Or](Q\[Rule]R)\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"(P\[Rule]R)\[Or](Q\[Rule]R)"}, ","], 
+    " ; ", $CellContext`\[EmptySet], " \[RightTee] ", 
+    "(P\[Rule]R)\[Or](Q\[Rule]R)", "    ", ""}]]], "Output",
+ CellChangeTimes->{3.440934429421875*^9, 3.4409352109375*^9, 
+  3.440935341875*^9, 3.4409354733125*^9, 3.44093648890625*^9, 
+  3.440937668734375*^9, 3.440938116640625*^9, 3.440938233171875*^9, 
+  3.4409382664375*^9}]
+}, Open  ]],
+
+Cell["... i upotrijebimo pravilo za eliminaciju disjunkcije", "Text",
+ CellChangeTimes->{{3.440934432421875*^9, 3.4409344386875*^9}, {
+  3.440934529609375*^9, 3.440934533390625*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%32", ",", "%26", ",", "%31"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440934535765625*^9, 3.44093455534375*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"(P\[Rule]R)\[Or](Q\[Rule]R)\"\>",
+    Row[{"(P\[Rule]R)\[Or](Q\[Rule]R)"}, ","]], 
+   "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    RowBox[{
+     StyleBox["1",
+      StripOnInput->False,
+      FontVariations->{"StrikeThrough"->True}], ",", 
+     StyleBox["2",
+      StripOnInput->False,
+      FontVariations->{"StrikeThrough"->True}], ",", 
+     StyleBox["3",
+      StripOnInput->False,
+      FontVariations->{"StrikeThrough"->True}], ",", 
+     StyleBox["4",
+      StripOnInput->False,
+      FontVariations->{"StrikeThrough"->True}]}],
+    Row[{
+      Style[1, FontVariations -> {"StrikeThrough" -> True}], 
+      Style[2, FontVariations -> {"StrikeThrough" -> True}], 
+      Style[3, FontVariations -> {"StrikeThrough" -> True}], 
+      Style[4, FontVariations -> {"StrikeThrough" -> True}]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"(P\[And]Q)\[Rule]R\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(E\[Or])\"\>"}],
+  Row[{
+    Row[{"(P\[Rule]R)\[Or](Q\[Rule]R)"}, ","], " ; ", 
+    Row[{
+      Style[1, FontVariations -> {"StrikeThrough" -> True}], 
+      Style[2, FontVariations -> {"StrikeThrough" -> True}], 
+      Style[3, FontVariations -> {"StrikeThrough" -> True}], 
+      Style[4, FontVariations -> {"StrikeThrough" -> True}]}, ","], 
+    " \[RightTee] ", "(P\[And]Q)\[Rule]R", "    ", "(E\[Or])"}]]], "Output",
+ CellChangeTimes->{3.440934557375*^9, 3.440935210984375*^9, 
+  3.44093534190625*^9, 3.44093547334375*^9, 3.4409364889375*^9, 
+  3.44093766875*^9, 3.44093811665625*^9, 3.4409382331875*^9, 
+  3.440938266484375*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"4", ",", "%33"}], "]"}]], "Input",
+ CellChangeTimes->{{3.44093456271875*^9, 3.44093456609375*^9}}],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     InterpretationBox[
+      RowBox[{
+       InterpretationBox["\<\"(P\[Rule]R)\[Or](Q\[Rule]R)\"\>",
+        Row[{"(P\[Rule]R)\[Or](Q\[Rule]R)"}, ","]], 
+       "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+       "\[InvisibleSpace]", "\<\"(P\[And]Q)\[Rule]R\"\>"}],
+      Row[{
+        Row[{"(P\[Rule]R)\[Or](Q\[Rule]R)"}, ","], " \[RightTee] ", 
+        "(P\[And]Q)\[Rule]R"}]]},
+    {
+     GraphicsBox[RasterBox[CompressedData["
+1:eJzt3duN4zYUAFAjqSTd7HcaCLAN5Mf/aWSALcUlbAkuxRlLflAUJZGybIn2
+OUCws7Oyrcxc8YoUyfvXz3///vnnbrf75/u/v/7Y7c5fnwAAAIBZjl/7r2P5
+yw773Y+v9s/d91fHR94LgLd0+JqbFL5+7HZNejmnmf2h/ebx6+uw0JkBULdO
+hml6JK1ryohT0C2FHC8Z5t6FiQ5If9w9Gd0+rP1G8363TwWgenEf5ruhj5v5
+Ts44Hg7t8V8/7oNjPzqpYaofc9jfjr5/WPwmANSulw4SKSY86JqRDvuw6xK9
+6HA4hP+0S2mPv73unrAAeBOpFHNLA83T/MY1aVz/jBNR5+8TvZhgqOx0/7D7
+ZwHwJoJRq8axM3bVfSBzzx3zU0z3824vO+rGwOwpmWZyslm9p/lBXglGw77z
+xj44sjtQFh95OGWKPiz7pOEtzZ/eaSYnW9XtVwQpJhzROnWfsJyaMa57DySY
+VBZ3i0aFvRhP+9m47nPFqXgdmnI5IsgwweTO/ptMPDGFTQk62d24nriGbgcH
+wV/SYS/6MNiIRPOe0KxMPt6/zHnnqA8TflBn2OA8rTO64zvJMQBvIC/FzHhJ
+nCOGXtVmon6O6X8HgLoUp5hoxHlQOsVEjz2D6Z29JW3By5MrBQBY12QmKEgx
+l8cxucdHzzGvz3I6KSZIJLdl0L1/AaBOT+vFxB2TVC8mvdVG718AqEw77TEz
+xZxns7QH5qeYbj8m/KDL10MbBhbO5ARge9pZkPkJIzHSNe42JbM3aXn0Q0dn
+ci6/LrP8HTuvSNYBef45ALC0+cs5RxQOy8XnkKwD8uRzAGBpk9U64uPzym2k
+2/fUmtD4HDIWpT50Dpum/iOLE1SsKKNaR/81OeU2Uu17ek1of0npUB2QJc5h
+09R/ZHGCihVNV+uYXW4jsfYzvSa0ew6pOiALnsOmqf/I4gQVa8qs1tGRV26j
+H4hZa0JHN2l//Bw2Tf1HFieoWFdmtY6hFwyX24jjcHhNaOcts1LM3HPYNvUf
+WZygYm2Z1ToGDJbbGMkwiRyTVwfk0XPYOPUfWZygYnW51TqShsptxJ2j4TWh
+/cOH6oA8eg6bp/7jCzw0JarC+VSC6gU+LahKza3WMXz0g0svk3VAnn8O61P/
+8ekeXQVWWc/4JKhe4POCilqp/5gtfgaQd8bxLn/BGyQbwH5Pvr7mQFCVum+7
+knf4BwYVtVL/Md+MObDJ282JlWD9kabamgNBNUP+bsafGVTwCc6NWMHwS/pC
+7j5mGJsfdfnQuhZbUWK6DxITVPDO2lGc3GOnWoO+3qiGG853dnvolN2LEVRM
+SN5gsBE5v8GcTY9ayecIY69OvCCrNVj7x8aYsd9cM/VtIiomY+Q5QQWsJHu2
+UmrcvKyGoMbg3bV3LAVRIajgHd3nKF33BM6QuIMsag2qW2xFufMdS0lUCCp4
+SwXrp27CKVHFz3ZrXGxFudIdOwUVAAAAAAAAfDhVAlmcoAJuVAlkcYIKaKkS
+yOIEFdBSJZDFCSqg9QZVAlUA3BpBJaigVX+VQBUAN0dQCSpo1VklMBA0Bt2K
+VAPbvKgA+HyCSlDBqfIqga3odjPcDDCqBh+8RgXAJxJUDUEFbyC+kPv7zaoA
+SCFBBbTSrcHgrWZDBUBGCSrqlrz/IWnyhxmNT1zvLodbgzetALjur6kukz9M
+QQVcdMfNc244YxoDIoIKuOjcQYbD5pl1AFUApEdQARe3hW69+aUZl7lVcqQI
+KtiY4FocugqDZ6L24yXLd6A0izebgKl0qwBgCceMUYRgBMF+vOS4PG3/TjT9
+FY7A5+ilmPHlA/bjfalKuwP3GBpc86hrDB8hzCgDO1OF96H2432xGrsD99uP
+ka6urjEUyHiosU3HzvWdOPfuPJs32I+3JpPdgQ3qThRug0rXGB6V81Bjg47R
+DrvH8cPr34+3JlndgY2Jr4OB60LXGMrUn2JyRmIS+/EGd6g1/gC2K9Ud2L6s
+FKNrDKUyHmpsT9kOuyNHV9L+1SSzO7A5UV9Y1xgWMflQY85bzloNtsYiskqa
+v5o8KcW8IKjug3rn+67pfkmyVM31fkZcQaPwoUaG+VX88jdbOjzm9+/f7ftI
+Mcsr7w7kvOkLgiro706fcrprfB20rWcaHTxZ4UONaZNV/KLWImwCspuDBVJM
+8z8uxTxDaXdg2kuCaiHNCQorOFu+bGBGFb/ONX88HILjX9ocaAuepqA7kPV2
+LwmqpbrGp6W6bkBsuopf96B4AOSgfh+xFwXVAinm+lRGioHnyKzid73o44tf
+6Qv6qgqqtgNnghmfIbk2+RGTn5hZxa+50exf+1JMBQQVsJrMKn7f1/2+N0tI
+Y0CSoAIucqv49UfI1e9jgKACLmZW8VO/j2GCCgCAtEorSbFlggq4qrGSFBsn
+qOB9pYqODe22UWMlKVYgqICrxFa36d02aqwkxToEFdBK7aae2G2jzkpSrENQ
+Aa100bF4t41aK0mxCkEFtAaKjkW7bWgNKCCogNZQ0bFot42nVJLiTQkqoDVc
+dCzabaNfSao7HHJ8xdlShQeC6vb9qZX5wPYVFR3rV5JStou+B4Pq+n073gNt
+G6E1YClB39jNC9Tuv7l+/fp1fxfVKAk8FlTt0JpeDHy825C7B7Us6Jxk9lIM
+cB1JN6TBkoy+AgAAAAAAAAAAAAAAALzS/3XDANg=
+       "], {{0, 0}, {545, 95}}, {0, 255},
+       ColorFunction->RGBColor],
+      ImageSize->{545, 95},
+      PlotRange->{{0, 545}, {0, 95}}]}
+   },
+   ColumnsEqual->False,
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+   RowsEqual->False],
+  "Column"]], "Output",
+ CellChangeTimes->{3.440934567125*^9, 3.44093521128125*^9, 3.4409353421875*^9,
+   3.44093547365625*^9, 3.440936489203125*^9, 3.44093766903125*^9, 
+  3.4409381169375*^9, 3.44093823346875*^9, 3.44093826684375*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "Mogli smo to i jednostavnije, tako \[SHacek]to bismo imali \
+zajedni\[CHacek]ku formulu ",
+ Cell[BoxData[
+  FormBox["R", TraditionalForm]]],
+ " (a ne ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"P", "\[And]", "Q"}], ")"}], "\[Rule]", "R"}], 
+   TraditionalForm]]],
+ "), pa introdukciju kondicionala napraviti samo jednom, nakon eliminacije \
+disjunkcije:"
+}], "Text",
+ CellChangeTimes->{{3.440934600078125*^9, 3.44093462540625*^9}, {
+  3.440934674015625*^9, 3.440934712828125*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"2", ",", "%23"}], "]"}]], "Input",
+ CellChangeTimes->{{3.44093473496875*^9, 3.4409347636875*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    TagBox[
+     SuperscriptBox[
+      TagBox[
+       OverscriptBox["\<\"P\[And]Q\"\>", "_"],
+       Power,
+       Editable->True,
+       Selectable->True], 
+      TagBox["2",
+       Power,
+       Editable->True,
+       Selectable->True]],
+     InterpretTemplate[Superscript[#, #2]& ],
+     Editable->False,
+     Selectable->False],
+    Row[{
+      Superscript[
+       OverBar["P\[And]Q"], 2]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"Q\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(E\[And])\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["P\[And]Q"], 2]}, ","], " \[RightTee] ", "Q", "    ", 
+    "(E\[And])"}]]], "Output",
+ CellChangeTimes->{3.440934792515625*^9, 3.440935211328125*^9, 
+  3.44093534221875*^9, 3.440935473703125*^9, 3.440936489234375*^9, 
+  3.4409376690625*^9, 3.44093811696875*^9, 3.440938233515625*^9, 
+  3.440938266921875*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%35", ",", "%27"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440934805421875*^9, 3.440934809984375*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    RowBox[{
+     TagBox[
+      SuperscriptBox[
+       TagBox[
+        OverscriptBox["\<\"P\[And]Q\"\>", "_"],
+        Power,
+        Editable->True,
+        Selectable->True], 
+       TagBox["2",
+        Power,
+        Editable->True,
+        Selectable->True]],
+      InterpretTemplate[Superscript[#, #2]& ],
+      Editable->False,
+      Selectable->False], ",", 
+     TagBox[
+      SuperscriptBox[
+       TagBox[
+        OverscriptBox["\<\"Q\[Rule]R\"\>", "_"],
+        Power,
+        Editable->True,
+        Selectable->True], 
+       TagBox["3",
+        Power,
+        Editable->True,
+        Selectable->True]],
+      InterpretTemplate[Superscript[#, #2]& ],
+      Editable->False,
+      Selectable->False]}],
+    Row[{
+      Superscript[
+       OverBar["P\[And]Q"], 2], 
+      Superscript[
+       OverBar["Q\[Rule]R"], 3]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"R\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(E\[Rule])\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["P\[And]Q"], 2], 
+      Superscript[
+       OverBar["Q\[Rule]R"], 3]}, ","], " \[RightTee] ", "R", "    ", 
+    "(E\[Rule])"}]]], "Output",
+ CellChangeTimes->{3.440934811421875*^9, 3.440935211359375*^9, 
+  3.44093534225*^9, 3.440935473765625*^9, 3.440936489265625*^9, 
+  3.44093766909375*^9, 3.440938117*^9, 3.44093823353125*^9, 
+  3.4409382669375*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%32", ",", "%25", ",", "%36"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440934815828125*^9, 3.440934834296875*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"(P\[Rule]R)\[Or](Q\[Rule]R)\"\>",
+    Row[{"(P\[Rule]R)\[Or](Q\[Rule]R)"}, ","]], 
+   "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    RowBox[{
+     StyleBox["1",
+      StripOnInput->False,
+      FontVariations->{"StrikeThrough"->True}], ",", 
+     StyleBox["3",
+      StripOnInput->False,
+      FontVariations->{"StrikeThrough"->True}], ",", 
+     TagBox[
+      SuperscriptBox[
+       TagBox[
+        OverscriptBox["\<\"P\[And]Q\"\>", "_"],
+        Power,
+        Editable->True,
+        Selectable->True], 
+       TagBox["2",
+        Power,
+        Editable->True,
+        Selectable->True]],
+      InterpretTemplate[Superscript[#, #2]& ],
+      Editable->False,
+      Selectable->False]}],
+    Row[{
+      Style[1, FontVariations -> {"StrikeThrough" -> True}], 
+      Style[3, FontVariations -> {"StrikeThrough" -> True}], 
+      Superscript[
+       OverBar["P\[And]Q"], 2]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"R\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(E\[Or])\"\>"}],
+  Row[{
+    Row[{"(P\[Rule]R)\[Or](Q\[Rule]R)"}, ","], " ; ", 
+    Row[{
+      Style[1, FontVariations -> {"StrikeThrough" -> True}], 
+      Style[3, FontVariations -> {"StrikeThrough" -> True}], 
+      Superscript[
+       OverBar["P\[And]Q"], 2]}, ","], " \[RightTee] ", "R", "    ", 
+    "(E\[Or])"}]]], "Output",
+ CellChangeTimes->{3.4409348374375*^9, 3.44093521140625*^9, 
+  3.44093534228125*^9, 3.440935473796875*^9, 3.44093648928125*^9, 
+  3.440937669109375*^9, 3.440938117015625*^9, 3.4409382335625*^9, 
+  3.440938266984375*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "Vidimo da su ",
+ Cell[BoxData[
+  FormBox["1", TraditionalForm]]],
+ " i ",
+ Cell[BoxData[
+  FormBox["3", TraditionalForm]]],
+ " zatvorene, dok je ",
+ Cell[BoxData[
+  FormBox["2", TraditionalForm]]],
+ " ostala, i to je sasvim legalno. Sada je mo\:017eemo zatvoriti:"
+}], "Text",
+ CellChangeTimes->{{3.440934845734375*^9, 3.44093487103125*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%37", ",", "2"}], "]"}]], "Input",
+ CellChangeTimes->{{3.4409348726875*^9, 3.440934877265625*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"(P\[Rule]R)\[Or](Q\[Rule]R)\"\>",
+    Row[{"(P\[Rule]R)\[Or](Q\[Rule]R)"}, ","]], 
+   "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    RowBox[{
+     StyleBox["1",
+      StripOnInput->False,
+      FontVariations->{"StrikeThrough"->True}], ",", 
+     StyleBox["2",
+      StripOnInput->False,
+      FontVariations->{"StrikeThrough"->True}], ",", 
+     StyleBox["3",
+      StripOnInput->False,
+      FontVariations->{"StrikeThrough"->True}]}],
+    Row[{
+      Style[1, FontVariations -> {"StrikeThrough" -> True}], 
+      Style[2, FontVariations -> {"StrikeThrough" -> True}], 
+      Style[3, FontVariations -> {"StrikeThrough" -> True}]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"(P\[And]Q)\[Rule]R\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(I\[Rule])\"\>"}],
+  Row[{
+    Row[{"(P\[Rule]R)\[Or](Q\[Rule]R)"}, ","], " ; ", 
+    Row[{
+      Style[1, FontVariations -> {"StrikeThrough" -> True}], 
+      Style[2, FontVariations -> {"StrikeThrough" -> True}], 
+      Style[3, FontVariations -> {"StrikeThrough" -> True}]}, ","], 
+    " \[RightTee] ", "(P\[And]Q)\[Rule]R", "    ", "(I\[Rule])"}]]], "Output",\
+
+ CellChangeTimes->{3.440934877953125*^9, 3.4409352114375*^9, 
+  3.440935342296875*^9, 3.440935473828125*^9, 3.4409364893125*^9, 
+  3.440937669140625*^9, 3.440938117046875*^9, 3.44093823359375*^9, 
+  3.440938267015625*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"4", ",", "%38"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440934885765625*^9, 3.440934889453125*^9}}],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     InterpretationBox[
+      RowBox[{
+       InterpretationBox["\<\"(P\[Rule]R)\[Or](Q\[Rule]R)\"\>",
+        Row[{"(P\[Rule]R)\[Or](Q\[Rule]R)"}, ","]], 
+       "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+       "\[InvisibleSpace]", "\<\"(P\[And]Q)\[Rule]R\"\>"}],
+      Row[{
+        Row[{"(P\[Rule]R)\[Or](Q\[Rule]R)"}, ","], " \[RightTee] ", 
+        "(P\[And]Q)\[Rule]R"}]]},
+    {
+     GraphicsBox[RasterBox[CompressedData["
+1:eJzt3dlx5DYQgGG6HImz0bMTcNUm4Jd5dyJTpVAYwobABDaH8ZDggYtEAwMe
+zf2/qi1pJV5Sz7RAEED/9ePfv3/82TTNP+9/v/5omv7zFwAAAABAue75eHb5
+u7WP5utpPjbvz7pPjgUAKNM+S7Pu86tphvzd5/FHa77YPZ9tpSsDACQ4KXxo
+UxtTTvZz/JyjuzGFL41wb4P46ZZsP5/MfGE43nxWAECa3wp/Z1I/jzpJuWtb
+s/3za+k/+XJyb6ol3j7mrZeT+QcBACQF+TaSw+2NppTfPuzGt7dT27b2t5oY
+s/283/IXAQAgFcvhc54dHlkOpqw8ffQzvfP/RDvc6k15LSdbzgUAkLI6Ngad
+073hdoovybk8h7vnm3fraIjjwj4ab8VgLewqeGRpJW6rw+SdmB/Wlm5fir9l
++xLyTia+aOBI5WO3DAZrYU9uy9jK4Xanx8vt5X4N3SBLG9oamuI37DfZ7XAe
+aWJ3/uMZ2WvOTeHOIaIND++d8yKJY1/WrZ41tjD9Ap83tprkObeNWScDqigY
+wRpthUee/Tv7BH2UJHEAqKFvPGR03MXTr/sEaGvw1XhS9zYWAFDM9P9Jt03l
+8FDQm+IcJJrwAQCGLDVv94bYCTmy4dbekR3oSwGAusRDoWId4uK/AANSOADU
+sAyAmhbeFIg0rLNyeNZgLQDAuth4qhR7vFV6bOHGzgAAAAAAAAAAAJhQIgcA
+VKNEDgDoRYkcANCLEjkAoBclcqBO4WwYJtHgjiiRA23Ky+WwHgnuhxI5qMtd
+JDv1klrW1BbfBVop3K0P4h0ktuIgSRz3Qokc7ES21tOwnlS3fCo5stcKt0/k
+lG/t2rYLKyqQxAEgLW/N1Yxd/CS8tpdJ9WESp1AOACRl5/CwQHBcPIc7LfDh
+cGOq9vvONbXDK1S5AICYZP7JyOFjl7h0e2+R7ak/3cnhVqbuu1Re0e8AAFbs
+1g73m9axdriTqJ0kTgoHgE1mfJMwh/dP1c2G8hzutsTtE42fe/0nVt6mUA4A
+pJjhTvKMHOkM2TZP1gnGFm6eVPMcn/rXnn9EZ49pHNEQgtLZgZojAgBi5dOa
+NmR2LPnXMD6JeGfyjHuoD68BABRy0qd187GWOa2kurW+dDyBxuZG+dcgmJz1
+0TUAwH2EAyTTTxusrv/19aVjCTQ+NyqcWjWl7o0J3sXXAAD3EWS5IId37gIH
+Xjt9Y33pyByo+Nwo9xr8YUD9CSpew5VRN0cjooZTxXL4nCJXFiiwu6jX15cO
+28CiuVH+35C13pfCa7g66uZoRNRwIn9IZOe8HiMvR3eH9fWl/fy5PjfKOaQo
+h5dew/VRN0cjooYzhc8TnRWju2AHx+r60hspPJLEn/bAQuekNa9BAermaETU
+cCq3UWvlcMmwvrX1pf3m/frcqHDz5Uj9QdMNG+k1aHCDujkfDczXOaqfqGmM
+2p1YEchbMXp16w/n+CwHTr8hKl7DFeivm/PpdAOFN09ETWXUgD2or5sjraLy
+WjbyfkyF6YCoaYwaUN0N6uZIq6g4+wSP1VWlA6I2UBY1ADHpKirbQ/0NXaP6
+9SNqAAxhFRVHcF9Oi+5gRA26RRsYiEr+MiVVVLZ26Imywbm/B12uEzUAV5eu
+opJCMjgeUQMwSlVRydofByFqAEaFVVS8nXEsogZcTL2l4HGkKkWsANxAtaXg
+cagqRawAqFdvKXiVlDZoaxWxAqBdtaXgtdLYoK1XxAqAIehYvqZqS8HrlGzQ
+XlDVIlYARpKO5QuqtRS8TqIG7cVULWIFYKI/hxcuBW81AZX9AmIN2uurWsQK
+wETQsXw9lZaCF8/yuBRhg/ZyKhaxAjBLdiyXHLJoVsQZkymUpD/HTjn8gKhV
+KWI1/UXWFzhgF5kdywLlZVPk61K0n/n586c5jsYcXtCglRz0gKhVKGI1dZzp
+GYwD7CyzYzktWTZlo/yoOB1UyOHDD64yh+c3aNMOiVolwwWqjBtQXf06LYKy
+Kc57vmtba/tD04HmXJDRoBUd7pCo1bp7etW6+QDgS5dNcTfyb+FbCqac4KCo
+VcjhU884ORzYh7BsyvSm99/8rNR8ClVRM7cgDFPB7yE6Ce4TyTMKy6YMLbnw
+vU8O7xE1AKcRlk15v+8fwVAIksFZiBqAkbRsStiJSsGU8xA1AKPCsikUTDkV
+UQMAADiN0soCvzmiBmCisbIAiBpwX7EqD2vzpjVWFrgnogZgElnXLj5vWmNl
+gdsiagCM2NqkkXnTOisL3BZRA2DEqzz486a1Vha4K6IGwFip8uDNmyYbXAtR
+A2CsVXnw5k3vUlkApYgaAGO9yoM3bzqsLODe0HdHXC0Mogagl1XlIawsoLlO
+gmJEDUA1fUZguWZtiBpwD/+V+v7+Xo5CfZ1jETUAFcy9sjwsU4SoAZhMna30
+rmpC1AAAAAAAAAAAAAAAAAAAAAAAwOn+ByufxIk=
+       "], {{0, 0}, {492, 95}}, {0, 255},
+       ColorFunction->RGBColor],
+      ImageSize->{492, 95},
+      PlotRange->{{0, 492}, {0, 95}}]}
+   },
+   ColumnsEqual->False,
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+   RowsEqual->False],
+  "Column"]], "Output",
+ CellChangeTimes->{3.44093489028125*^9, 3.440935211703125*^9, 
+  3.4409353425625*^9, 3.44093547409375*^9, 3.4409364895625*^9, 
+  3.440937669390625*^9, 3.440938117296875*^9, 3.44093823384375*^9, 
+  3.4409382675625*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Preostali veznici", "Section",
+ CellChangeTimes->{{3.4409349146875*^9, 3.44093491734375*^9}}],
+
+Cell[TextData[{
+ "Prema bikondicionalu se pona\[SHacek]amo jednako kao i prema konjunkciji: \
+postoji introdukcija ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"d", "[", 
+    RowBox[{"3", ",", 
+     SubscriptBox["%", "1"], ",", 
+     SubscriptBox["%", "2"]}], "]"}], TraditionalForm]]],
+ " (gdje su ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["%", "1"], TraditionalForm]]],
+ " i ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["%", "2"], TraditionalForm]]],
+ " izvodi za kondicionale u oba smjera), te postoje eliminacije slijeva i \
+zdesna ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"d", "[", 
+    RowBox[{"1", ",", "%"}], "]"}], TraditionalForm]]],
+ " i ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"d", "[", 
+    RowBox[{"2", ",", "%"}], "]"}], TraditionalForm]]],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.440934924296875*^9, 3.4409350025625*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", "\"\<P>Q\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.440935019890625*^9, 3.44093502625*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"P\[Rule]Q\"\>",
+    Row[{"P\[Rule]Q"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\[Rule]Q\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"P\[Rule]Q"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ",
+     "P\[Rule]Q", "    ", ""}]]], "Output",
+ CellChangeTimes->{3.440935027203125*^9, 3.440935211734375*^9, 
+  3.44093534259375*^9, 3.440935474140625*^9, 3.44093648959375*^9, 
+  3.440937669421875*^9, 3.440938117328125*^9, 3.440938233875*^9, 
+  3.440938267578125*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", "\"\<Q>P\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.44093502803125*^9, 3.44093503175*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"Q\[Rule]P\"\>",
+    Row[{"Q\[Rule]P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"Q\[Rule]P\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"Q\[Rule]P"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ",
+     "Q\[Rule]P", "    ", ""}]]], "Output",
+ CellChangeTimes->{3.44093503425*^9, 3.440935211796875*^9, 3.440935342625*^9, 
+  3.440935474171875*^9, 3.440936489609375*^9, 3.440937669453125*^9, 
+  3.440938117359375*^9, 3.440938233890625*^9, 3.440938267609375*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"3", ",", "%40", ",", "%41"}], "]"}]], "Input",
+ CellChangeTimes->{{3.4409350378125*^9, 3.440935049171875*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox[
+    RowBox[{"\<\"P\[Rule]Q\"\>", ",", "\<\"Q\[Rule]P\"\>"}],
+    Row[{"P\[Rule]Q", "Q\[Rule]P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>",
+    "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\[LeftRightArrow]Q\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(I\[LeftRightArrow])\"\>"}],
+  Row[{
+    Row[{"P\[Rule]Q", "Q\[Rule]P"}, ","], " ; ", $CellContext`\[EmptySet], 
+    " \[RightTee] ", "P\[LeftRightArrow]Q", "    ", 
+    "(I\[LeftRightArrow])"}]]], "Output",
+ CellChangeTimes->{3.44093504990625*^9, 3.4409352118125*^9, 
+  3.44093534265625*^9, 3.440935474203125*^9, 3.440936489640625*^9, 
+  3.44093766946875*^9, 3.440938117375*^9, 3.44093823390625*^9, 
+  3.440938267625*^9}]
+}, Open  ]],
+
+Cell["Naravno, i ovdje je redoslijed bitan:", "Text",
+ CellChangeTimes->{{3.440935055203125*^9, 3.440935079375*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"3", ",", "%41", ",", "%40"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440935080890625*^9, 3.44093508509375*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox[
+    RowBox[{"\<\"P\[Rule]Q\"\>", ",", "\<\"Q\[Rule]P\"\>"}],
+    Row[{"P\[Rule]Q", "Q\[Rule]P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>",
+    "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"Q\[LeftRightArrow]P\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(I\[LeftRightArrow])\"\>"}],
+  Row[{
+    Row[{"P\[Rule]Q", "Q\[Rule]P"}, ","], " ; ", $CellContext`\[EmptySet], 
+    " \[RightTee] ", "Q\[LeftRightArrow]P", "    ", 
+    "(I\[LeftRightArrow])"}]]], "Output",
+ CellChangeTimes->{3.4409350859375*^9, 3.44093521184375*^9, 
+  3.4409353426875*^9, 3.44093547421875*^9, 3.44093648965625*^9, 
+  3.4409376695*^9, 3.44093811740625*^9, 3.4409382339375*^9, 
+  3.440938267640625*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"1", ",", "%42"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440935095984375*^9, 3.4409351045625*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox[
+    RowBox[{"\<\"P\[Rule]Q\"\>", ",", "\<\"Q\[Rule]P\"\>"}],
+    Row[{"P\[Rule]Q", "Q\[Rule]P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>",
+    "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\[Rule]Q\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(E\[LeftRightArrow])\"\>"}],
+  Row[{
+    Row[{"P\[Rule]Q", "Q\[Rule]P"}, ","], " ; ", $CellContext`\[EmptySet], 
+    " \[RightTee] ", "P\[Rule]Q", "    ", "(E\[LeftRightArrow])"}]]], "Output",\
+
+ CellChangeTimes->{3.440935105296875*^9, 3.440935211875*^9, 
+  3.440935342703125*^9, 3.44093547425*^9, 3.440936489671875*^9, 
+  3.440937669515625*^9, 3.440938117421875*^9, 3.440938233953125*^9, 
+  3.44093826765625*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", "\"\<P=Q\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.4409351289375*^9, 3.440935132890625*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"P\[LeftRightArrow]Q\"\>",
+    Row[{"P\[LeftRightArrow]Q"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\[LeftRightArrow]Q\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"P\[LeftRightArrow]Q"}, ","], " ; ", $CellContext`\[EmptySet], 
+    " \[RightTee] ", "P\[LeftRightArrow]Q", "    ", ""}]]], "Output",
+ CellChangeTimes->{3.440935136078125*^9, 3.440935211890625*^9, 
+  3.440935342734375*^9, 3.440935474296875*^9, 3.440936489703125*^9, 
+  3.440937669546875*^9, 3.440938117453125*^9, 3.440938233984375*^9, 
+  3.440938267671875*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"2", ",", "%45"}], "]"}]], "Input",
+ CellChangeTimes->{{3.44093514296875*^9, 3.440935147390625*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"P\[LeftRightArrow]Q\"\>",
+    Row[{"P\[LeftRightArrow]Q"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"Q\[Rule]P\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(E\[LeftRightArrow])\"\>"}],
+  Row[{
+    Row[{"P\[LeftRightArrow]Q"}, ","], " ; ", $CellContext`\[EmptySet], 
+    " \[RightTee] ", "Q\[Rule]P", "    ", "(E\[LeftRightArrow])"}]]], "Output",\
+
+ CellChangeTimes->{3.4409351489375*^9, 3.440935211921875*^9, 
+  3.440935342765625*^9, 3.440935474328125*^9, 3.44093648971875*^9, 
+  3.4409376695625*^9, 3.44093811746875*^9, 3.440938234*^9, 3.4409382676875*^9}
+  ]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"4", ",", "%46"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440935155828125*^9, 3.4409351615*^9}}],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     InterpretationBox[
+      RowBox[{
+       InterpretationBox["\<\"P\[LeftRightArrow]Q\"\>",
+        Row[{"P\[LeftRightArrow]Q"}, ","]], 
+       "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+       "\[InvisibleSpace]", "\<\"Q\[Rule]P\"\>"}],
+      Row[{
+        Row[{"P\[LeftRightArrow]Q"}, ","], " \[RightTee] ", "Q\[Rule]P"}]]},
+    {
+     GraphicsBox[RasterBox[CompressedData["
+1:eJztl10OgyAMx0l2kGUH2bvPO4IX2AvH4S4cxaNs+Ek/qFaNoIn/xEwd4I9S
+Wvqqv5/6YYx5husdrvb+dyuzvDWV639NuGtK86jlKmM65Bbd+tI4OjUDtWhq
+NJduTXoVnaCrRtqWX0DxNv4RmhVfEW+hiXuiaH6sAfYE2BRBQEJuAmfV7eX8
+UmFDD8Ft9IZvnN0eo3hn7CT0URgksmrad+3cvsDaOOfxm7gP29VXUABsbbwE
+1CASkfA1aw7OHUfSWA5/VucixNbQsyY+6gj8mXEfLPpFviGk2AXt6D3pdLTS
+2GxX4aWjz2iQ5BzXapGbhKLRtNQnQTPSIzH3HMLOnbT2gkpQE+tB31YGfm79
+PJoCAwuACp5dueriusuK7ZKO/XKqXSwr8ih1jJtJtaqyIoMY9lyqTZUVZZQ6
+9kupVllW5JBw7E+m2nNiL2fcDWXFQVp57F9dVhyiDcf+VWXFrcvrD5q8J3c=
+
+       "], {{0, 0}, {61, 31}}, {0, 255},
+       ColorFunction->RGBColor],
+      ImageSize->{61, 31},
+      PlotRange->{{0, 61}, {0, 31}}]}
+   },
+   ColumnsEqual->False,
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+   RowsEqual->False],
+  "Column"]], "Output",
+ CellChangeTimes->{3.44093516209375*^9, 3.44093521196875*^9, 
+  3.4409353428125*^9, 3.440935474375*^9, 3.440936489765625*^9, 
+  3.440937669609375*^9, 3.44093811753125*^9, 3.440938234046875*^9, 
+  3.44093826771875*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"4", ",", "%43"}], "]"}]], "Input",
+ CellChangeTimes->{{3.44093519009375*^9, 3.4409351965*^9}}],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     InterpretationBox[
+      RowBox[{
+       InterpretationBox[
+        RowBox[{"\<\"P\[Rule]Q\"\>", ",", "\<\"Q\[Rule]P\"\>"}],
+        Row[{"P\[Rule]Q", "Q\[Rule]P"}, ","]], 
+       "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+       "\[InvisibleSpace]", "\<\"Q\[LeftRightArrow]P\"\>"}],
+      Row[{
+        Row[{"P\[Rule]Q", "Q\[Rule]P"}, ","], " \[RightTee] ", 
+        "Q\[LeftRightArrow]P"}]]},
+    {
+     GraphicsBox[RasterBox[CompressedData["
+1:eJztmEtygzAMhj3Tg3R6G9Zdd5ULdMNxfBcfhaNQnrFkhG3FFSgefzNMcCIc
++UeWQF+P3+/HhzHmczp+pmM+HxsNCVxvOrt+mulsuNsfHdjOmEWPWZfe3e2O
+AoZNEhwk07dPdVzvf1miaaVe9Wy3L3gWZ1vnYHu0ieAYqlUlMAT25frAwWyW
+tWsSrm8fh3kFjqFkS3KujDNNxlkGkE+gEbCRC5lw8153cbh3wuHJP9LZ9z9x
+tmzawVpXcDlMrF3O8wmKJZnigyVB6c3v1ui9KRTFl9ecew5qsVg5JqPksMvP
+K+M6LhNFGfRyoCaJyrjgHDHJ25LWZIxXxsMkpICqSIqC6xytyRipjAdNaoBK
+KLyyX50kZKSwNCEj7d2BZeSkFudd3Iigqk2kxhlVbSIVztBtIgDyjdUmyjAO
+Fp505hLINlEITM2s99scYzB5ljPScNpE/u2vQJPY5JQz1xNpiUBQgLPaRBnG
+z8kznZEmy43gmYbVJkoag8mVaCLeJmIZv+CMDLJtImZPie2MFHJtohd6Sixn
+Go3b+APMk4WC
+       "], {{0, 0}, {92, 31}}, {0, 255},
+       ColorFunction->RGBColor],
+      ImageSize->{92, 31},
+      PlotRange->{{0, 92}, {0, 31}}]}
+   },
+   ColumnsEqual->False,
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+   RowsEqual->False],
+  "Column"]], "Output",
+ CellChangeTimes->{{3.440935197125*^9, 3.44093521203125*^9}, 
+   3.440935342890625*^9, 3.440935474421875*^9, 3.440936489828125*^9, 
+   3.440937669671875*^9, 3.440938117578125*^9, 3.44093823409375*^9, 
+   3.440938267765625*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "Prema negaciji se pona\[SHacek]amo kao prema \"kondicionalu\" (",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"\[Not]", "A"}], TraditionalForm]]],
+ " kao ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"A", "\[Rule]", "\[UpTee]"}], TraditionalForm]]],
+ "). Dakle, postoji eliminacija (paziti na redoslijed!)"
+}], "Text",
+ CellChangeTimes->{{3.440935231296875*^9, 3.4409352854375*^9}, {
+  3.440935368234375*^9, 3.4409353728125*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", "\"\<P\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.44093531040625*^9, 3.440935314*^9}, {
+  3.44093544290625*^9, 3.440935443078125*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"P\"\>",
+    Row[{"P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]",
+    "\[EmptySet]", "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"P"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", "P", 
+    "    ", ""}]]], "Output",
+ CellChangeTimes->{{3.440935314765625*^9, 3.440935342921875*^9}, {
+   3.44093544459375*^9, 3.440935474453125*^9}, 3.44093648984375*^9, 
+   3.4409376696875*^9, 3.44093811759375*^9, 3.440938234125*^9, 
+   3.44093826778125*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"\"\<!P\>\"", ",", "1"}], "]"}]], "Input",
+ CellChangeTimes->{{3.44093531578125*^9, 3.440935319578125*^9}, {
+  3.440935448046875*^9, 3.440935448296875*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    TagBox[
+     SuperscriptBox[
+      TagBox[
+       OverscriptBox["\<\"\[Not]P\"\>", "_"],
+       Power,
+       Editable->True,
+       Selectable->True], 
+      TagBox["1",
+       Power,
+       Editable->True,
+       Selectable->True]],
+     InterpretTemplate[Superscript[#, #2]& ],
+     Editable->False,
+     Selectable->False],
+    Row[{
+      Superscript[
+       OverBar["\[Not]P"], 1]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"\[Not]P\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["\[Not]P"], 1]}, ","], " \[RightTee] ", "\[Not]P", "    ", 
+    ""}]]], "Output",
+ CellChangeTimes->{{3.4409353200625*^9, 3.440935342953125*^9}, {
+   3.440935448828125*^9, 3.440935474484375*^9}, 3.440936489859375*^9, 
+   3.44093766971875*^9, 3.440938117625*^9, 3.440938234140625*^9, 
+   3.440938267796875*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%49", ",", "%50"}], "]"}]], "Input",
+ CellChangeTimes->{{3.4409353210625*^9, 3.44093533725*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"P\"\>",
+    Row[{"P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]",
+    
+   InterpretationBox[
+    TagBox[
+     SuperscriptBox[
+      TagBox[
+       OverscriptBox["\<\"\[Not]P\"\>", "_"],
+       Power,
+       Editable->True,
+       Selectable->True], 
+      TagBox["1",
+       Power,
+       Editable->True,
+       Selectable->True]],
+     InterpretTemplate[Superscript[#, #2]& ],
+     Editable->False,
+     Selectable->False],
+    Row[{
+      Superscript[
+       OverBar["\[Not]P"], 1]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"\[UpTee]\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(E\[Not])\"\>"}],
+  Row[{
+    Row[{"P"}, ","], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["\[Not]P"], 1]}, ","], " \[RightTee] ", "\[UpTee]", "    ", 
+    "(E\[Not])"}]]], "Output",
+ CellChangeTimes->{{3.440935327640625*^9, 3.44093534296875*^9}, {
+   3.4409354609375*^9, 3.440935474515625*^9}, 3.44093648990625*^9, 
+   3.440937669765625*^9, 3.440938117671875*^9, 3.440938234171875*^9, 
+   3.4409382678125*^9}]
+}, Open  ]],
+
+Cell["\<\
+... i postoji introdukcija (moramo navesti koju privremenu pretpostavku \
+\:017eelimo zatvoriti)\
+\>", "Text",
+ CellChangeTimes->{{3.440935383375*^9, 3.440935411453125*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%51", ",", "1"}], "]"}]], "Input",
+ CellChangeTimes->{{3.4409353908125*^9, 3.440935399734375*^9}, {
+  3.44093546384375*^9, 3.440935464*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"P\"\>",
+    Row[{"P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]",
+    
+   InterpretationBox[
+    StyleBox["1",
+     StripOnInput->False,
+     FontVariations->{"StrikeThrough"->True}],
+    Row[{
+      Style[1, FontVariations -> {"StrikeThrough" -> True}]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"\[Not]\[Not]P\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(I\[Not])\"\>"}],
+  Row[{
+    Row[{"P"}, ","], " ; ", 
+    Row[{
+      Style[1, FontVariations -> {"StrikeThrough" -> True}]}, ","], 
+    " \[RightTee] ", "\[Not]\[Not]P", "    ", "(I\[Not])"}]]], "Output",
+ CellChangeTimes->{
+  3.44093541265625*^9, {3.440935464734375*^9, 3.44093547453125*^9}, 
+   3.4409364899375*^9, 3.44093766978125*^9, 3.4409381176875*^9, 
+   3.4409382341875*^9, 3.440938267828125*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"4", ",", "%52"}], "]"}]], "Input",
+ CellChangeTimes->{{3.4409354208125*^9, 3.440935423953125*^9}}],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     InterpretationBox[
+      RowBox[{
+       InterpretationBox["\<\"P\"\>",
+        Row[{"P"}, ","]], "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+       "\[InvisibleSpace]", "\<\"\[Not]\[Not]P\"\>"}],
+      Row[{
+        Row[{"P"}, ","], " \[RightTee] ", "\[Not]\[Not]P"}]]},
+    {
+     GraphicsBox[RasterBox[CompressedData["
+1:eJztmt9tgzAQhy11kg7RHXjuCFmgLzz1pYtYYhSPwiiJG5TWfw58hzHG8Puk
+SBECB306Lufj3m9fn7c3pdSH/Xzbz+/3OwAAAJDG9OpFb2rfzBkwWo8LB0fd
+wfN2wHZhrEH1TzeJJQ/6hztd756vgRPbxw/zUffEg1rqsgK4ik3fHeSuaMik
+yGLU2mx5J2txbNsCZbfY9tIa82d92UFiTFx7CN1OBVijCBSlLjKyF1bwzz+E
+7rpIbNO62LbvxrB/6qRsbXum7oouV2dkU9s26xEns1dAJpHZJhM3d4Vry7aP
+vNUkLPCJ6GauQD4XV2Iqh2QS3G2KoAI8zu4GAABAafwSPijiQSHWd8SAnHK2
+m28jF6CY7fbbyA3hyPYbsoz/COgWEkS2uzUm3+2gjZxBqCvZiEAbOQPath/V
+3DYySBK0y15imVU9bAsJX7bGsT1PI7K3f3EyA+NevOh283Y6h1+9jbyGv21K
+VAEuyjz17gYAACLyB9cx+i5h7YwphrHXANt7Ihhcx+h7NvmD602Nvlcmf3C9
+pdH32uQPrscrOLkFoe6QP7g+uwKSyp7AdiY/DIZhmE6G7Z14ZnLY3o1nNodt
+AAAADfMA8iJlYg==
+       "], {{0, 0}, {122, 53}}, {0, 255},
+       ColorFunction->RGBColor],
+      ImageSize->{122, 53},
+      PlotRange->{{0, 122}, {0, 53}}]}
+   },
+   ColumnsEqual->False,
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+   RowsEqual->False],
+  "Column"]], "Output",
+ CellChangeTimes->{3.440935424484375*^9, 3.440935474609375*^9, 
+  3.440936490015625*^9, 3.440937669859375*^9, 3.440938117765625*^9, 
+  3.440938234265625*^9, 3.44093826790625*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "Za negaciju jo\[SHacek] postoji pravilo eliminacije dvostruke negacije, \
+koje se poziva tako da se funkcija ",
+ Cell[BoxData[
+  FormBox["d", TraditionalForm]]],
+ " pozove s jednim argumentom:"
+}], "Text",
+ CellChangeTimes->{{3.44093550996875*^9, 3.440935544609375*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", "%52", "]"}]], "Input",
+ CellChangeTimes->{{3.44093554890625*^9, 3.440935556328125*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"P\"\>",
+    Row[{"P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]",
+    
+   InterpretationBox[
+    RowBox[{"\<\"\[Not]\[Not]\"\>", ",", 
+     StyleBox["1",
+      StripOnInput->False,
+      FontVariations->{"StrikeThrough"->True}]}],
+    Row[{"\[Not]\[Not]", 
+      Style[1, FontVariations -> {"StrikeThrough" -> True}]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(\[Not]\[Not])\"\>"}],
+  Row[{
+    Row[{"P"}, ","], " ; ", 
+    Row[{"\[Not]\[Not]", 
+      Style[1, FontVariations -> {"StrikeThrough" -> True}]}, ","], 
+    " \[RightTee] ", "P", "    ", "(\[Not]\[Not])"}]]], "Output",
+ CellChangeTimes->{3.440935557125*^9, 3.44093649003125*^9, 
+  3.440937669890625*^9, 3.440938117796875*^9, 3.440938234296875*^9, 
+  3.4409382679375*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "Vidimo me\:0111u \"privremenim pretpostavkama\" znak ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"\[Not]", "\[Not]"}], TraditionalForm]]],
+ ", \[SHacek]to zna\[CHacek]i da smo u tom izvodu negdje koristili pravilo \
+eliminacije dvostruke negacije. To je bitno ako \:017eelimo znati je li na\
+\[SHacek] izvod intuicionisti\[CHacek]ki ok (to je ako i samo ako ne koristi \
+pravilo ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"\[Not]", "\[Not]"}], TraditionalForm]]],
+ "). Ako izvod prolazi samo u klasi\[CHacek]noj logici, to ovaj sustav ozna\
+\[CHacek]ava znakom ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"\[RightTee]", "'"}], TraditionalForm]]],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.4409355698125*^9, 3.440935695625*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"4", ",", "%54"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440935696640625*^9, 3.440935700046875*^9}}],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     InterpretationBox[
+      RowBox[{
+       InterpretationBox["\<\"P\"\>",
+        Row[{"P"}, ","]], "\[InvisibleSpace]", "\<\" \[RightTee]' \"\>", 
+       "\[InvisibleSpace]", "\<\"P\"\>"}],
+      Row[{
+        Row[{"P"}, ","], " \[RightTee]' ", "P"}]]},
+    {
+     GraphicsBox[RasterBox[CompressedData["
+1:eJzt291twyAUhmFLnaTbpLcdIQv0xvddBDWjMIpHSZ1EibCNDRiHn8P7SJWq
+tHadfgICHD7PP9/nj67rvsavv/Hr9v0VAADgRvfdU69zPwwONagTmYpEslKN
+yb465JPK/TQ4jtFmpTbfQfVqSHZZMcw4dX+q+r3YabX3TQ1K6SOfJC0j2fGD
+ssA2uz/YqqM1Zj1CJz4bwVp/NH2x4mil24rGI9mr1quXI6tZsuZM4DYXGFZf
+tFzeISFntLqPGWPojQvW6CeoFuxvtXHtHW/X6EoFAABwozqiYo7VMKmbcA0g
+WUFC1jmpjpCqquoIVg8C1FQd0Wqdwz6ZqiMmQ4Pnn50GOxtcHNc2F23m6oig
+7t/aYjfuQJ1DRiHJ2qPxTpY6h6SOTta3ziGlmAqBYjnfdVhvbNv39L4DvXFS
+YdMs20DreweCTWXsNsdIAifQllbreQfqHBJ6fCwP+4ebSw4Bs542VyoAAIBp
+Oh2fTcghQEwZO0r2vmTZBs3rbcmyDSqUEex0k89jTCfags1arLl8Z625YBu0
+EvNonAuzbINWwp7stLWWuA0Kp9m2yDNEz1kzyRZsXki2bLPrCHbh+IKGFR7P
+Mmm15jjrHnPZBi3ba8lhMevZDI6VCgBAueIPKXPMuVR7z8JxGLZ0JCtVwCFl
+jjlXJf6QclXHnBsSf0i5pmPOLYk/pLy8g9E/04QziT+kvHoHOmapSLYivx4u
+l8vjl0lWoPvIS7Ii3UdfkgUAAACQ2T9PD7fp
+       "], {{0, 0}, {158, 73}}, {0, 255},
+       ColorFunction->RGBColor],
+      ImageSize->{158, 73},
+      PlotRange->{{0, 158}, {0, 73}}]}
+   },
+   ColumnsEqual->False,
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+   RowsEqual->False],
+  "Column"]], "Output",
+ CellChangeTimes->{3.4409357008125*^9, 3.440936490140625*^9, 3.44093767*^9, 
+  3.44093811790625*^9, 3.44093823440625*^9, 3.440938268046875*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Gre\[SHacek]ke", "Section",
+ CellChangeTimes->{{3.44093574709375*^9, 3.440935748171875*^9}}],
+
+Cell[TextData[{
+ "Ve\[CAcute]ina gre\[SHacek]aka (odnosno naredbi koje vode do \
+gre\[SHacek]aka) se mo\:017ee jednostavno zanemariti; ako dobijemo krivu \
+formulu kao rezultat poziva funkcije ",
+ Cell[BoxData[
+  FormBox["d", TraditionalForm]]],
+ " s krivim redoslijedom argumenata, uvijek mo\:017eemo ponovo pozvati ",
+ Cell[BoxData[
+  FormBox["d", TraditionalForm]]],
+ " s ispravnim redoslijedom argumenata, i ni\[SHacek]ta nije izgubljeno."
+}], "Text",
+ CellChangeTimes->{{3.440935768046875*^9, 3.440935854828125*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", "\"\<P\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.44093585725*^9, 3.440935861984375*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"P\"\>",
+    Row[{"P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]",
+    "\[EmptySet]", "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"P"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", "P", 
+    "    ", ""}]]], "Output",
+ CellChangeTimes->{3.440935862375*^9, 3.440936490171875*^9, 
+  3.44093767003125*^9, 3.4409381179375*^9, 3.4409382344375*^9, 
+  3.4409382680625*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", "\"\<P>Q\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.440935862640625*^9, 3.440935866359375*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"P\[Rule]Q\"\>",
+    Row[{"P\[Rule]Q"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\[Rule]Q\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"P\[Rule]Q"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ",
+     "P\[Rule]Q", "    ", ""}]]], "Output",
+ CellChangeTimes->{3.440935867*^9, 3.4409364901875*^9, 3.440937670046875*^9, 
+  3.44093811796875*^9, 3.440938234453125*^9, 3.440938268078125*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%57", ",", "%56"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440935868125*^9, 3.44093587421875*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox[
+    RowBox[{"\<\"P\"\>", ",", "\<\"P\[Rule]Q\"\>"}],
+    Row[{"P", "P\[Rule]Q"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"(P\[Rule]Q)\[And]P\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(I\[And])\"\>"}],
+  Row[{
+    Row[{"P", "P\[Rule]Q"}, ","], " ; ", $CellContext`\[EmptySet], 
+    " \[RightTee] ", "(P\[Rule]Q)\[And]P", "    ", "(I\[And])"}]]], "Output",
+ CellChangeTimes->{3.440935874828125*^9, 3.44093649021875*^9, 
+  3.440937670078125*^9, 3.440938117984375*^9, 3.440938234484375*^9, 
+  3.44093826809375*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "(Ako nijedno drugo pravilo nije primjenjivo, sustav automatski primjenjuje \
+introdukciju konjunkcije. Na taj na\[CHacek]in umjesto ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"d", "[", 
+    RowBox[{"3", ",", 
+     SubscriptBox["%", "1"], ",", 
+     SubscriptBox["%", "2"]}], "]"}], TraditionalForm]]],
+ " mo\:017eemo pisati samo ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"d", "[", 
+    RowBox[{
+     SubscriptBox["%", "1"], ",", 
+     SubscriptBox["%", "2"]}], "]"}], TraditionalForm]]],
+ " kad znamo da nema zabune od mogu\[CAcute]nosti primjene nekog drugog \
+pravila.)"
+}], "Text",
+ CellChangeTimes->{{3.440935904390625*^9, 3.440935974578125*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%56", ",", "%57"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440935881953125*^9, 3.440935886359375*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox[
+    RowBox[{"\<\"P\"\>", ",", "\<\"P\[Rule]Q\"\>"}],
+    Row[{"P", "P\[Rule]Q"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"Q\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(E\[Rule])\"\>"}],
+  Row[{
+    Row[{"P", "P\[Rule]Q"}, ","], " ; ", $CellContext`\[EmptySet], 
+    " \[RightTee] ", "Q", "    ", "(E\[Rule])"}]]], "Output",
+ CellChangeTimes->{3.440935887078125*^9, 3.440936490234375*^9, 
+  3.44093767009375*^9, 3.440938118015625*^9, 3.44093823453125*^9, 
+  3.440938268125*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "Tako\:0111er, ako poku\[SHacek]amo na primjer uvesti disjunkciju s ne\
+\[CHacek]im \[SHacek]to nije formula (konkretno, ",
+ Cell[BoxData[
+  FormBox["\[UpTee]", TraditionalForm]]],
+ "), dobit \[CAcute]emo ne\[SHacek]to \[SHacek]to nije upotrebljivo dalje, \
+ali \[CAcute]e svi koraci do tog mjesta biti sasvim upotrebljivi i na njih \
+\[CAcute]emo se mo\[CAcute]i pozivati."
+}], "Text",
+ CellChangeTimes->{{3.440936007703125*^9, 3.440936076125*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", "\"\<P\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.44093607884375*^9, 3.44093608109375*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"P\"\>",
+    Row[{"P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]",
+    "\[EmptySet]", "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"P"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", "P", 
+    "    ", ""}]]], "Output",
+ CellChangeTimes->{3.44093608165625*^9, 3.440936490265625*^9, 
+  3.440937670125*^9, 3.44093811803125*^9, 3.440938234546875*^9, 
+  3.440938268140625*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", "\"\<!P\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.44093608215625*^9, 3.440936086578125*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"\[Not]P\"\>",
+    Row[{"\[Not]P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"\[Not]P\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"\[Not]P"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", 
+    "\[Not]P", "    ", ""}]]], "Output",
+ CellChangeTimes->{3.44093608753125*^9, 3.440936490296875*^9, 
+  3.440937670140625*^9, 3.4409381180625*^9, 3.4409382345625*^9, 
+  3.44093826815625*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%60", ",", "%61"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440936088765625*^9, 3.44093609503125*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox[
+    RowBox[{"\<\"P\"\>", ",", "\<\"\[Not]P\"\>"}],
+    Row[{"P", "\[Not]P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"\[UpTee]\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(E\[Not])\"\>"}],
+  Row[{
+    Row[{"P", "\[Not]P"}, ","], " ; ", $CellContext`\[EmptySet], 
+    " \[RightTee] ", "\[UpTee]", "    ", "(E\[Not])"}]]], "Output",
+ CellChangeTimes->{3.440936095484375*^9, 3.4409364903125*^9, 
+  3.440937670171875*^9, 3.440938118078125*^9, 3.44093823459375*^9, 
+  3.440938268171875*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%62", ",", "\"\<Q\>\""}], "]"}]], "Input",
+ CellChangeTimes->{{3.440936098140625*^9, 3.440936107875*^9}}],
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{
+   RowBox[{"ded", "[", 
+    RowBox[{
+     RowBox[{"set", "[", 
+      RowBox[{"p", ",", 
+       RowBox[{"neg", "[", "p", "]"}]}], "]"}], ",", 
+     RowBox[{"set", "[", "]"}], ",", "False", ",", 
+     RowBox[{"eneg", "[", 
+      RowBox[{
+       RowBox[{"ax", "[", "p", "]"}], ",", 
+       RowBox[{"ax", "[", 
+        RowBox[{"neg", "[", "p", "]"}], "]"}], ",", "False"}], "]"}]}], "]"}],
+    ",", "q"}], "]"}]], "Output",
+ CellChangeTimes->{3.440936108421875*^9, 3.44093649034375*^9, 
+  3.4409376701875*^9, 3.440938118109375*^9, 3.440938234609375*^9, 
+  3.440938268203125*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%61", ",", "\"\<Q\>\""}], "]"}]], "Input",
+ CellChangeTimes->{{3.440936154453125*^9, 3.440936161390625*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"\[Not]P\"\>",
+    Row[{"\[Not]P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"\[Not]P\[Or]Q\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(I\[Or])\"\>"}],
+  Row[{
+    Row[{"\[Not]P"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", 
+    "\[Not]P\[Or]Q", "    ", "(I\[Or])"}]]], "Output",
+ CellChangeTimes->{3.4409361619375*^9, 3.440936490375*^9, 3.44093767021875*^9,
+   3.440938118125*^9, 3.440938234640625*^9, 3.44093826821875*^9}]
+}, Open  ]],
+
+Cell["\<\
+Ve\[CAcute]i problem je ako koristimo isti broj za dvije razli\[CHacek]ite \
+privremene pretpostavke:\
+\>", "Text",
+ CellChangeTimes->{{3.440936202484375*^9, 3.440936237875*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"\"\<P\>\"", ",", "1"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440936240078125*^9, 3.440936243796875*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    TagBox[
+     SuperscriptBox[
+      TagBox[
+       OverscriptBox["\<\"P\"\>", "_"],
+       Power,
+       Editable->True,
+       Selectable->True], 
+      TagBox["1",
+       Power,
+       Editable->True,
+       Selectable->True]],
+     InterpretTemplate[Superscript[#, #2]& ],
+     Editable->False,
+     Selectable->False],
+    Row[{
+      Superscript[
+       OverBar["P"], 1]}, ","]], "\[InvisibleSpace]", "\<\" \[RightTee] \"\>",
+    "\[InvisibleSpace]", "\<\"P\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["P"], 1]}, ","], " \[RightTee] ", "P", "    ", ""}]]], "Output",\
+
+ CellChangeTimes->{3.440936244359375*^9, 3.44093649040625*^9, 
+  3.440937670234375*^9, 3.44093811815625*^9, 3.44093823465625*^9, 
+  3.440938268234375*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"\"\<Q\>\"", ",", "1"}], "]"}]], "Input",
+ CellChangeTimes->{{3.4409362448125*^9, 3.440936247671875*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    TagBox[
+     SuperscriptBox[
+      TagBox[
+       OverscriptBox["\<\"Q\"\>", "_"],
+       Power,
+       Editable->True,
+       Selectable->True], 
+      TagBox["1",
+       Power,
+       Editable->True,
+       Selectable->True]],
+     InterpretTemplate[Superscript[#, #2]& ],
+     Editable->False,
+     Selectable->False],
+    Row[{
+      Superscript[
+       OverBar["Q"], 1]}, ","]], "\[InvisibleSpace]", "\<\" \[RightTee] \"\>",
+    "\[InvisibleSpace]", "\<\"Q\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["Q"], 1]}, ","], " \[RightTee] ", "Q", "    ", ""}]]], "Output",\
+
+ CellChangeTimes->{3.4409362483125*^9, 3.4409364904375*^9, 
+  3.440937670265625*^9, 3.440938118171875*^9, 3.4409382346875*^9, 
+  3.440938268265625*^9}]
+}, Open  ]],
+
+Cell["\<\
+Sustav nam to dopu\[SHacek]ta, jer dva prethodna koraka ne moraju biti dio \
+istog dokaza. No onog trena kad ih poku\[SHacek]amo spojiti, javlja se gre\
+\[SHacek]ka:\
+\>", "Text",
+ CellChangeTimes->{{3.44093625153125*^9, 3.440936281703125*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"3", ",", "%65", ",", "%66"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440936288125*^9, 3.440936294109375*^9}}],
+
+Cell[BoxData[
+ StyleBox["\<\"1?\"\>",
+  StripOnInput->False,
+  FrontFaceColor->RGBColor[1, 0, 0],
+  BackFaceColor->RGBColor[1, 0, 0],
+  GraphicsColor->RGBColor[1, 0, 0],
+  FontSize->Large,
+  FontColor->RGBColor[1, 0, 0]]], "Output",
+ CellChangeTimes->{3.44093629584375*^9, 3.440936490453125*^9, 
+  3.44093767028125*^9, 3.440938118203125*^9, 3.440938234703125*^9, 
+  3.44093826828125*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "U ovom slu\[CHacek]aju, to zna\[CHacek]i da postoje kontradiktorne \
+informacije o tome koja privremena pretpostavka je otvorena pod brojem ",
+ Cell[BoxData[
+  FormBox["1", TraditionalForm]]],
+ ". U takvim slu\[CHacek]ajevima, naj\[CHacek]e\[SHacek]\[CAcute]e nema druge \
+nego jednu \"polovicu\" iskaza ponoviti s nekim drugim brojem privremene \
+pretpostavke."
+}], "Text",
+ CellChangeTimes->{{3.440936303125*^9, 3.440936386515625*^9}}],
+
+Cell["\<\
+Tako\:0111er, nemogu\[CAcute]e je dva puta zatvoriti istu privremenu \
+pretpostavku (pod istim brojem):\
+\>", "Text",
+ CellChangeTimes->{{3.4409364143125*^9, 3.4409364396875*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"\"\<P\>\"", ",", "1"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440936446625*^9, 3.440936451140625*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    TagBox[
+     SuperscriptBox[
+      TagBox[
+       OverscriptBox["\<\"P\"\>", "_"],
+       Power,
+       Editable->True,
+       Selectable->True], 
+      TagBox["1",
+       Power,
+       Editable->True,
+       Selectable->True]],
+     InterpretTemplate[Superscript[#, #2]& ],
+     Editable->False,
+     Selectable->False],
+    Row[{
+      Superscript[
+       OverBar["P"], 1]}, ","]], "\[InvisibleSpace]", "\<\" \[RightTee] \"\>",
+    "\[InvisibleSpace]", "\<\"P\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["P"], 1]}, ","], " \[RightTee] ", "P", "    ", ""}]]], "Output",\
+
+ CellChangeTimes->{3.440936454890625*^9, 3.440936490484375*^9, 
+  3.4409376703125*^9, 3.44093811821875*^9, 3.440938234734375*^9, 
+  3.440938268296875*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%68", ",", "1"}], "]"}]], "Input",
+ CellChangeTimes->{{3.44093645821875*^9, 3.44093646221875*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    StyleBox["1",
+     StripOnInput->False,
+     FontVariations->{"StrikeThrough"->True}],
+    Row[{
+      Style[1, FontVariations -> {"StrikeThrough" -> True}]}, ","]], 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\[Rule]P\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(I\[Rule])\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Style[1, FontVariations -> {"StrikeThrough" -> True}]}, ","], 
+    " \[RightTee] ", "P\[Rule]P", "    ", "(I\[Rule])"}]]], "Output",
+ CellChangeTimes->{{3.440936462765625*^9, 3.440936490515625*^9}, 
+   3.440937670328125*^9, 3.44093811825*^9, 3.44093823475*^9, 
+   3.440938268328125*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%69", ",", "1"}], "]"}]], "Input",
+ CellChangeTimes->{{3.44093646403125*^9, 3.4409364745*^9}}],
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{
+   RowBox[{"ded", "[", 
+    RowBox[{
+     RowBox[{"set", "[", "]"}], ",", 
+     RowBox[{"set", "[", 
+      RowBox[{"Closed", "[", "1", "]"}], "]"}], ",", 
+     RowBox[{"kond", "[", 
+      RowBox[{"p", ",", "p"}], "]"}], ",", 
+     RowBox[{"ikond", "[", 
+      RowBox[{
+       RowBox[{"ax", "[", 
+        RowBox[{"1", ",", "p"}], "]"}], ",", "1", ",", 
+       RowBox[{"kond", "[", 
+        RowBox[{"p", ",", "p"}], "]"}]}], "]"}]}], "]"}], ",", "1"}], 
+  "]"}]], "Output",
+ CellChangeTimes->{{3.440936469484375*^9, 3.440936490546875*^9}, 
+   3.440937670359375*^9, 3.440938118265625*^9, 3.44093823478125*^9, 
+   3.44093826834375*^9}]
+}, Open  ]],
+
+Cell["\<\
+Isto je tako nemogu\[CAcute]e koristiti pretpostavku nakon \[SHacek]to smo je \
+zatvorili:\
+\>", "Text",
+ CellChangeTimes->{{3.440936524640625*^9, 3.44093655353125*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"3", ",", "%68", ",", "%69"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440936498125*^9, 3.440936517515625*^9}}],
+
+Cell[BoxData[
+ StyleBox["\<\"1?\"\>",
+  StripOnInput->False,
+  FrontFaceColor->RGBColor[1, 0, 0],
+  BackFaceColor->RGBColor[1, 0, 0],
+  GraphicsColor->RGBColor[1, 0, 0],
+  FontSize->Large,
+  FontColor->RGBColor[1, 0, 0]]], "Output",
+ CellChangeTimes->{3.440936517953125*^9, 3.440937670375*^9, 
+  3.440938118296875*^9, 3.440938234796875*^9, 3.440938268375*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "\[CapitalCHacek]este su gre\[SHacek]ke kod primjene eliminacije disjunkcije \
+(kr\[SHacek]enje pravila da se ",
+ Cell[BoxData[
+  FormBox["m", TraditionalForm]]],
+ " smije javiti kao broj privremene pretpostavke samo u srednjem podstablu, a \
+",
+ Cell[BoxData[
+  FormBox["n", TraditionalForm]]],
+ " samo u desnom); na primjer,"
+}], "Text",
+ CellChangeTimes->{{3.440936656859375*^9, 3.440936701390625*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", "\"\<PvQ\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.440936704546875*^9, 3.440936707953125*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"P\[Or]Q\"\>",
+    Row[{"P\[Or]Q"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\[Or]Q\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"P\[Or]Q"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", 
+    "P\[Or]Q", "    ", ""}]]], "Output",
+ CellChangeTimes->{3.4409367085*^9, 3.44093767040625*^9, 3.4409381183125*^9, 
+  3.4409382348125*^9, 3.440938268390625*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"\"\<P\>\"", ",", "1"}], "]"}]], "Input",
+ CellChangeTimes->{{3.44093671490625*^9, 3.440936717421875*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    TagBox[
+     SuperscriptBox[
+      TagBox[
+       OverscriptBox["\<\"P\"\>", "_"],
+       Power,
+       Editable->True,
+       Selectable->True], 
+      TagBox["1",
+       Power,
+       Editable->True,
+       Selectable->True]],
+     InterpretTemplate[Superscript[#, #2]& ],
+     Editable->False,
+     Selectable->False],
+    Row[{
+      Superscript[
+       OverBar["P"], 1]}, ","]], "\[InvisibleSpace]", "\<\" \[RightTee] \"\>",
+    "\[InvisibleSpace]", "\<\"P\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["P"], 1]}, ","], " \[RightTee] ", "P", "    ", ""}]]], "Output",\
+
+ CellChangeTimes->{3.440936717890625*^9, 3.440937670421875*^9, 
+  3.44093811834375*^9, 3.44093823484375*^9, 3.440938268421875*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"\"\<Q\>\"", ",", "2"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440936719890625*^9, 3.440936722875*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    TagBox[
+     SuperscriptBox[
+      TagBox[
+       OverscriptBox["\<\"Q\"\>", "_"],
+       Power,
+       Editable->True,
+       Selectable->True], 
+      TagBox["2",
+       Power,
+       Editable->True,
+       Selectable->True]],
+     InterpretTemplate[Superscript[#, #2]& ],
+     Editable->False,
+     Selectable->False],
+    Row[{
+      Superscript[
+       OverBar["Q"], 2]}, ","]], "\[InvisibleSpace]", "\<\" \[RightTee] \"\>",
+    "\[InvisibleSpace]", "\<\"Q\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["Q"], 2]}, ","], " \[RightTee] ", "Q", "    ", ""}]]], "Output",\
+
+ CellChangeTimes->{3.44093672546875*^9, 3.440937670453125*^9, 
+  3.440938118359375*^9, 3.440938234859375*^9, 3.4409382684375*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"3", ",", "%73", ",", "%74"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440936726390625*^9, 3.440936733734375*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    RowBox[{
+     TagBox[
+      SuperscriptBox[
+       TagBox[
+        OverscriptBox["\<\"P\"\>", "_"],
+        Power,
+        Editable->True,
+        Selectable->True], 
+       TagBox["1",
+        Power,
+        Editable->True,
+        Selectable->True]],
+      InterpretTemplate[Superscript[#, #2]& ],
+      Editable->False,
+      Selectable->False], ",", 
+     TagBox[
+      SuperscriptBox[
+       TagBox[
+        OverscriptBox["\<\"Q\"\>", "_"],
+        Power,
+        Editable->True,
+        Selectable->True], 
+       TagBox["2",
+        Power,
+        Editable->True,
+        Selectable->True]],
+      InterpretTemplate[Superscript[#, #2]& ],
+      Editable->False,
+      Selectable->False]}],
+    Row[{
+      Superscript[
+       OverBar["P"], 1], 
+      Superscript[
+       OverBar["Q"], 2]}, ","]], "\[InvisibleSpace]", "\<\" \[RightTee] \"\>",
+    "\[InvisibleSpace]", "\<\"P\[And]Q\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(I\[And])\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["P"], 1], 
+      Superscript[
+       OverBar["Q"], 2]}, ","], " \[RightTee] ", "P\[And]Q", "    ", 
+    "(I\[And])"}]]], "Output",
+ CellChangeTimes->{3.44093673403125*^9, 3.44093767046875*^9, 
+  3.440938118390625*^9, 3.440938234875*^9, 3.44093826846875*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"1", ",", "%75"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440936735265625*^9, 3.4409367465*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    RowBox[{
+     TagBox[
+      SuperscriptBox[
+       TagBox[
+        OverscriptBox["\<\"P\"\>", "_"],
+        Power,
+        Editable->True,
+        Selectable->True], 
+       TagBox["1",
+        Power,
+        Editable->True,
+        Selectable->True]],
+      InterpretTemplate[Superscript[#, #2]& ],
+      Editable->False,
+      Selectable->False], ",", 
+     TagBox[
+      SuperscriptBox[
+       TagBox[
+        OverscriptBox["\<\"Q\"\>", "_"],
+        Power,
+        Editable->True,
+        Selectable->True], 
+       TagBox["2",
+        Power,
+        Editable->True,
+        Selectable->True]],
+      InterpretTemplate[Superscript[#, #2]& ],
+      Editable->False,
+      Selectable->False]}],
+    Row[{
+      Superscript[
+       OverBar["P"], 1], 
+      Superscript[
+       OverBar["Q"], 2]}, ","]], "\[InvisibleSpace]", "\<\" \[RightTee] \"\>",
+    "\[InvisibleSpace]", "\<\"P\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(E\[And])\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["P"], 1], 
+      Superscript[
+       OverBar["Q"], 2]}, ","], " \[RightTee] ", "P", "    ", 
+    "(E\[And])"}]]], "Output",
+ CellChangeTimes->{3.440936747484375*^9, 3.440937670484375*^9, 
+  3.44093811840625*^9, 3.44093823490625*^9, 3.440938268484375*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%72", ",", "%73", ",", "%76"}], "]"}]], "Input",
+ CellChangeTimes->{{3.44093675578125*^9, 3.44093676734375*^9}}],
+
+Cell[BoxData[
+ StyleBox["\<\"1?\"\>",
+  StripOnInput->False,
+  FrontFaceColor->RGBColor[1, 0, 0],
+  BackFaceColor->RGBColor[1, 0, 0],
+  GraphicsColor->RGBColor[1, 0, 0],
+  FontSize->Large,
+  FontColor->RGBColor[1, 0, 0]]], "Output",
+ CellChangeTimes->{3.440936768375*^9, 3.440937670515625*^9, 
+  3.440938118421875*^9, 3.440938234921875*^9, 3.440938268515625*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "Pretpostavka ",
+ Cell[BoxData[
+  FormBox["1", TraditionalForm]]],
+ " je kori\[SHacek]tena tamo gdje se nije smjela koristiti: u ovom slu\
+\[CHacek]aju, u izvodu ",
+ Cell[BoxData[
+  FormBox["%76", TraditionalForm]]],
+ ", koji je bio tre\[CAcute]i argument za eliminaciju disjunkcije."
+}], "Text",
+ CellChangeTimes->{{3.44093678159375*^9, 3.440936833796875*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Skra\[CAcute]enice", "Section",
+ CellChangeTimes->{{3.440936847625*^9, 3.440936849859375*^9}}],
+
+Cell[TextData[{
+ "Postoje mnogi skra\[CAcute]eni zapisi. Jedan smo ve\[CAcute] vidjeli: kad \
+nema opasnosti od zabune, umjesto ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"d", "[", 
+    RowBox[{"3", ",", 
+     SubscriptBox["%", "1"], ",", 
+     SubscriptBox["%", "2"]}], "]"}], TraditionalForm]]],
+ " mo\:017eemo pisati samo ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"d", "[", 
+    RowBox[{
+     SubscriptBox["%", "1"], ",", 
+     SubscriptBox["%", "2"]}], "]"}], TraditionalForm]]],
+ " za introdukciju konjunkcije."
+}], "Text",
+ CellChangeTimes->{{3.440936853171875*^9, 3.440936900671875*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", "\"\<P\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.440936901984375*^9, 3.440936906140625*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"P\"\>",
+    Row[{"P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]",
+    "\[EmptySet]", "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"P"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", "P", 
+    "    ", ""}]]], "Output",
+ CellChangeTimes->{3.44093690659375*^9, 3.440937670546875*^9, 
+  3.440938118453125*^9, 3.4409382349375*^9, 3.44093826853125*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", "\"\<Q\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.440936906921875*^9, 3.44093691015625*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"Q\"\>",
+    Row[{"Q"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]",
+    "\[EmptySet]", "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"Q\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"Q"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", "Q", 
+    "    ", ""}]]], "Output",
+ CellChangeTimes->{3.4409369116875*^9, 3.4409376705625*^9, 
+  3.44093811846875*^9, 3.44093823496875*^9, 3.4409382685625*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%78", ",", "%79"}], "]"}]], "Input",
+ CellChangeTimes->{{3.44093691246875*^9, 3.440936919453125*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox[
+    RowBox[{"\<\"P\"\>", ",", "\<\"Q\"\>"}],
+    Row[{"P", "Q"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\[And]Q\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(I\[And])\"\>"}],
+  Row[{
+    Row[{"P", "Q"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", 
+    "P\[And]Q", "    ", "(I\[And])"}]]], "Output",
+ CellChangeTimes->{3.440936921140625*^9, 3.44093767059375*^9, 3.4409381185*^9,
+   3.440938234984375*^9, 3.440938268578125*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "Jednako tako, u obliku za zavr\[SHacek]avanje dokaza ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"d", "[", 
+    RowBox[{"4", ",", "%"}], "]"}], TraditionalForm]]],
+ ", mo\:017eemo ispustiti prvi argument ako nema opasnosti od primjene \
+pravila eliminacije dvostruke negacije:"
+}], "Text",
+ CellChangeTimes->{{3.440936949921875*^9, 3.440937011125*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", "%80", "]"}]], "Input",
+ CellChangeTimes->{{3.44093701475*^9, 3.440937017875*^9}}],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     InterpretationBox[
+      RowBox[{
+       InterpretationBox[
+        RowBox[{"\<\"P\"\>", ",", "\<\"Q\"\>"}],
+        Row[{"P", "Q"}, ","]], "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+       "\[InvisibleSpace]", "\<\"P\[And]Q\"\>"}],
+      Row[{
+        Row[{"P", "Q"}, ","], " \[RightTee] ", "P\[And]Q"}]]},
+    {
+     GraphicsBox[RasterBox[CompressedData["
+1:eJztVtGtwyAMtPQGqbrGmyDfHaEL9Idx2MWjZJT3CAmJgSMtVMGp1JOiQGXk
+q7Evd70/bvcfIrq459c90/rvi5OADQ12fpNbjdp8nsEORJ7pxNhw9/y+TjPW
+7Gyjuo3W8rIYllC9wjoOaZVWfn7DPPqFHQLJibZCZZfUWWZBNxSajSwoOtQF
+2/3SPEQezBy9U3padEVeScHXdKvxO2xHa1r6HB6LKIrrdkyNGLe4E9LtHpKh
+rUA0P+GnlW0iS6ELFmyjNTVPI1nRdqHxShIE6AoFkyJWSGzqFQxWNm4jLEGQ
+7sHA6bIhyCQoILnfg/ES21yC4HF6G0/psgHtlQtKIkH7f/ZAoMbFHySTRXYn
+C6sLxTpvUXgvR0PKPFCwV459JJBj3A/XNeSV/kTZkFexVTfk2DFi6BvygmME
+OIMhLznG3UC074KyYywHwn0H1DjGdkOug0ZDroYWQ/7F+fEPuZ58Rw==
+       "], {{0, 0}, {58, 31}}, {0, 255},
+       ColorFunction->RGBColor],
+      ImageSize->{58, 31},
+      PlotRange->{{0, 58}, {0, 31}}]}
+   },
+   ColumnsEqual->False,
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+   RowsEqual->False],
+  "Column"]], "Output",
+ CellChangeTimes->{3.440937019*^9, 3.440937670640625*^9, 3.440938118546875*^9,
+   3.44093823503125*^9, 3.440938268625*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "Kada funkciji ",
+ Cell[BoxData[
+  FormBox["d", TraditionalForm]]],
+ " dajemo samo jedan argument (dakle kod uvo\:0111enja aksioma, eliminacije \
+dvostruke negacije, i zavr\[SHacek]avanja dokaza bez prvog argumenta ",
+ Cell[BoxData[
+  FormBox["4", TraditionalForm]]],
+ "), umjesto ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"d", "[", "x", "]"}], TraditionalForm]]],
+ " mo\:017eemo pisati ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"d", "@", "x"}], TraditionalForm]]],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.44093704778125*^9, 3.440937104578125*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "@", "\"\<!!P\>\""}]], "Input",
+ CellChangeTimes->{{3.440937110640625*^9, 3.440937113296875*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"\[Not]\[Not]P\"\>",
+    Row[{"\[Not]\[Not]P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"\[Not]\[Not]P\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"\[Not]\[Not]P"}, ","], " ; ", $CellContext`\[EmptySet], 
+    " \[RightTee] ", "\[Not]\[Not]P", "    ", ""}]]], "Output",
+ CellChangeTimes->{3.440937116984375*^9, 3.44093767065625*^9, 
+  3.440938118578125*^9, 3.4409382350625*^9, 3.44093826865625*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "@", "%82"}]], "Input",
+ CellChangeTimes->{{3.440937118765625*^9, 3.440937121875*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"\[Not]\[Not]P\"\>",
+    Row[{"\[Not]\[Not]P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", 
+   InterpretationBox["\<\"\[Not]\[Not]\"\>",
+    Row[{"\[Not]\[Not]"}, ","]], "\[InvisibleSpace]", "\<\" \[RightTee] \"\>",
+    "\[InvisibleSpace]", "\<\"P\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(\[Not]\[Not])\"\>"}],
+  Row[{
+    Row[{"\[Not]\[Not]P"}, ","], " ; ", 
+    Row[{"\[Not]\[Not]"}, ","], " \[RightTee] ", "P", "    ", 
+    "(\[Not]\[Not])"}]]], "Output",
+ CellChangeTimes->{3.440937122796875*^9, 3.4409376706875*^9, 
+  3.440938118609375*^9, 3.44093823509375*^9, 3.440938268671875*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "@", "%83"}]], "Input",
+ CellChangeTimes->{{3.440937124984375*^9, 3.44093712859375*^9}}],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     InterpretationBox[
+      RowBox[{
+       InterpretationBox["\<\"\[Not]\[Not]P\"\>",
+        Row[{"\[Not]\[Not]P"}, ","]], 
+       "\[InvisibleSpace]", "\<\" \[RightTee]' \"\>", 
+       "\[InvisibleSpace]", "\<\"P\"\>"}],
+      Row[{
+        Row[{"\[Not]\[Not]P"}, ","], " \[RightTee]' ", "P"}]]},
+    {
+     GraphicsBox[RasterBox[CompressedData["
+1:eJztltENgyAQhkk6SOMY3YDnjuACfWGc2+VGYRSKsTbYKNC7Q6HlS0iMevHL
+ib83jI/7eFFKXf26+TUdu06nbdCoBYNny6SwoOuXnGlL9b0HNJxtEyXoKrPB
+FgzYkmWhHxpNedirGKi1FgCTN7mVqo8DelfpppmuQVjx8ipiunlpfTK3rxLE
+npWh6hB3y6X5UA1jZQoWu3tyo1zxSLqi4YXHcRvggM9KEHpfeW+EQvFfQNvU
+NRkmsq6mcatu1W9i+S8nw+KITYblkZoMiyM2GXY6v80TCuSkFg==
+       "], {{0, 0}, {57, 31}}, {0, 255},
+       ColorFunction->RGBColor],
+      ImageSize->{57, 31},
+      PlotRange->{{0, 57}, {0, 31}}]}
+   },
+   ColumnsEqual->False,
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+   RowsEqual->False],
+  "Column"]], "Output",
+ CellChangeTimes->{3.440937129265625*^9, 3.440937670734375*^9, 
+  3.44093811865625*^9, 3.440938235140625*^9, 3.44093826871875*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "Ukoliko se pri ",
+ Cell[BoxData[
+  FormBox["%", TraditionalForm]]],
+ "-notaciji pozivamo upravo na prethodni korak, ne moramo pisati broj koraka \
+(pi\[SHacek]emo samo ",
+ Cell[BoxData[
+  FormBox["%", TraditionalForm]]],
+ "):"
+}], "Text",
+ CellChangeTimes->{{3.440937186578125*^9, 3.44093720696875*^9}, {
+  3.440937260828125*^9, 3.4409372670625*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "@", "\"\<P\>\""}]], "Input",
+ CellChangeTimes->{{3.440937208296875*^9, 3.4409372198125*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"P\"\>",
+    Row[{"P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]",
+    "\[EmptySet]", "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"P"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", "P", 
+    "    ", ""}]]], "Output",
+ CellChangeTimes->{3.440937224140625*^9, 3.44093767078125*^9, 
+  3.440938118703125*^9, 3.440938235171875*^9, 3.44093826875*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"\"\<Q\>\"", ",", "%"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440937230140625*^9, 3.4409372378125*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"P\"\>",
+    Row[{"P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]",
+    "\[EmptySet]", "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"Q\[Or]P\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(I\[Or])\"\>"}],
+  Row[{
+    Row[{"P"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", 
+    "Q\[Or]P", "    ", "(I\[Or])"}]]], "Output",
+ CellChangeTimes->{3.44093723915625*^9, 3.440937670796875*^9, 
+  3.440938118734375*^9, 3.4409382351875*^9, 3.440938268765625*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "@", "%"}]], "Input",
+ CellChangeTimes->{{3.440937269203125*^9, 3.440937269796875*^9}}],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     InterpretationBox[
+      RowBox[{
+       InterpretationBox["\<\"P\"\>",
+        Row[{"P"}, ","]], "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+       "\[InvisibleSpace]", "\<\"Q\[Or]P\"\>"}],
+      Row[{
+        Row[{"P"}, ","], " \[RightTee] ", "Q\[Or]P"}]]},
+    {
+     GraphicsBox[RasterBox[CompressedData["
+1:eJztlu0NwiAQhkkcxDiGG/S3I7iAfxiHXRiFUZQPaQ/uqIChFw1PbGxLaZ/C
+9Q2X++N2Pwkhzna72s3tPyeD0FIsKvwLu2e4fXZRixBe0+lKza1TxrxN0ZDa
+BujtRz3A9DpqiYbOGUgYre0PSmXuB6MlHEroopVrSFxZVfOHb8fRMRivrWsN
++C/xSEqqRql42tUBvrp+gI2SPamCu6UFEA+BKXRN6kPW5RqclVZZIOHZviU3
+v/752e3XPkC1NtXSW4ECykqImiXsuqXQ/jiBsKrOK3JMKSuUNgXXYdDPwqpE
+2oTz6MwwKlWptEHdxXd8dNWSKBSUOlTalN90FFSxpqqFtMlbDoAY10S1lDaF
+GRkKzPJyWO12+xP413sN8K73mvgtVb71Xhtd6z0eetZ7THSs93joWe9NJpPA
+C0LRYnw=
+       "], {{0, 0}, {57, 31}}, {0, 255},
+       ColorFunction->RGBColor],
+      ImageSize->{57, 31},
+      PlotRange->{{0, 57}, {0, 31}}]}
+   },
+   ColumnsEqual->False,
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+   RowsEqual->False],
+  "Column"]], "Output",
+ CellChangeTimes->{3.44093727075*^9, 3.44093767084375*^9, 3.44093811878125*^9,
+   3.440938235234375*^9, 3.440938268828125*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "Za pretprethodni, pretpretprethodni,\[Ellipsis] korak postoje zapisi ",
+ Cell[BoxData[
+  FormBox["%%", TraditionalForm]]],
+ ", ",
+ Cell[BoxData[
+  FormBox["%%%", TraditionalForm]]],
+ ",\[Ellipsis] (no pitanje je kolika je u\[SHacek]teda pisati ",
+ Cell[BoxData[
+  FormBox["%%%%%", TraditionalForm]]],
+ " umjesto ",
+ Cell[BoxData[
+  FormBox["%42", TraditionalForm]]],
+ "\[HappySmiley])"
+}], "Text",
+ CellChangeTimes->{{3.440937287984375*^9, 3.440937354578125*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "@", "\"\<P\>\""}]], "Input",
+ CellChangeTimes->{{3.440937367640625*^9, 3.440937370484375*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"P\"\>",
+    Row[{"P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]",
+    "\[EmptySet]", "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"P"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", "P", 
+    "    ", ""}]]], "Output",
+ CellChangeTimes->{3.440937371234375*^9, 3.440937670875*^9, 
+  3.4409381188125*^9, 3.440938235265625*^9, 3.44093826884375*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "@", "\"\<Q\>\""}]], "Input",
+ CellChangeTimes->{{3.44093737209375*^9, 3.44093737375*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"Q\"\>",
+    Row[{"Q"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]",
+    "\[EmptySet]", "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"Q\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"Q"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", "Q", 
+    "    ", ""}]]], "Output",
+ CellChangeTimes->{3.44093737534375*^9, 3.440937670890625*^9, 
+  3.440938118828125*^9, 3.440938235296875*^9, 3.440938268875*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%%", ",", "%"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440937376328125*^9, 3.4409373786875*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox[
+    RowBox[{"\<\"P\"\>", ",", "\<\"Q\"\>"}],
+    Row[{"P", "Q"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\[And]Q\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(I\[And])\"\>"}],
+  Row[{
+    Row[{"P", "Q"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", 
+    "P\[And]Q", "    ", "(I\[And])"}]]], "Output",
+ CellChangeTimes->{3.440937379421875*^9, 3.440937670921875*^9, 
+  3.440938118859375*^9, 3.4409382353125*^9, 3.440938268890625*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "@", "%"}]], "Input",
+ CellChangeTimes->{{3.440937392484375*^9, 3.440937393109375*^9}}],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     InterpretationBox[
+      RowBox[{
+       InterpretationBox[
+        RowBox[{"\<\"P\"\>", ",", "\<\"Q\"\>"}],
+        Row[{"P", "Q"}, ","]], "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+       "\[InvisibleSpace]", "\<\"P\[And]Q\"\>"}],
+      Row[{
+        Row[{"P", "Q"}, ","], " \[RightTee] ", "P\[And]Q"}]]},
+    {
+     GraphicsBox[RasterBox[CompressedData["
+1:eJztVtGtwyAMtPQGqbrGmyDfHaEL9Idx2MWjZJT3CAmJgSMtVMGp1JOiQGXk
+q7Evd70/bvcfIrq459c90/rvi5OADQ12fpNbjdp8nsEORJ7pxNhw9/y+TjPW
+7Gyjuo3W8rIYllC9wjoOaZVWfn7DPPqFHQLJibZCZZfUWWZBNxSajSwoOtQF
+2/3SPEQezBy9U3padEVeScHXdKvxO2xHa1r6HB6LKIrrdkyNGLe4E9LtHpKh
+rUA0P+GnlW0iS6ELFmyjNTVPI1nRdqHxShIE6AoFkyJWSGzqFQxWNm4jLEGQ
+7sHA6bIhyCQoILnfg/ES21yC4HF6G0/psgHtlQtKIkH7f/ZAoMbFHySTRXYn
+C6sLxTpvUXgvR0PKPFCwV459JJBj3A/XNeSV/kTZkFexVTfk2DFi6BvygmME
+OIMhLznG3UC074KyYywHwn0H1DjGdkOug0ZDroYWQ/7F+fEPuZ58Rw==
+       "], {{0, 0}, {58, 31}}, {0, 255},
+       ColorFunction->RGBColor],
+      ImageSize->{58, 31},
+      PlotRange->{{0, 58}, {0, 31}}]}
+   },
+   ColumnsEqual->False,
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+   RowsEqual->False],
+  "Column"]], "Output",
+ CellChangeTimes->{3.440937394078125*^9, 3.44093767096875*^9, 
+  3.44093811890625*^9, 3.440938235359375*^9, 3.44093826896875*^9}]
+}, Open  ]],
+
+Cell["\<\
+Varijable mo\:017eemo pisati i malim slovima:\
+\>", "Text",
+ CellChangeTimes->{{3.440937548953125*^9, 3.44093758621875*^9}, {
+  3.440937629015625*^9, 3.440937630015625*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "@", "\"\<p>q\>\""}]], "Input",
+ CellChangeTimes->{{3.44093756003125*^9, 3.440937589515625*^9}, {
+  3.44093763196875*^9, 3.44093763553125*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"P\[Rule]Q\"\>",
+    Row[{"P\[Rule]Q"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\[Rule]Q\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"P\[Rule]Q"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ",
+     "P\[Rule]Q", "    ", ""}]]], "Output",
+ CellChangeTimes->{3.440937590015625*^9, 3.44093763659375*^9, 
+  3.440937670984375*^9, 3.4409381189375*^9, 3.440938235390625*^9, 
+  3.440938269*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "Pri uvo\:0111enju aksioma, privremene pretpostavke ili disjunkcije, ako \
+uvodimo samu propozicionalnu varijablu, ",
+ StyleBox["i pi\[SHacek]emo je malim slovom",
+  FontSlant->"Italic"],
+ ", ne moramo pisati navodnike:"
+}], "Text",
+ CellChangeTimes->{{3.4409374259375*^9, 3.4409374525*^9}, {3.440937647875*^9, 
+  3.44093765159375*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "@", "p"}]], "Input",
+ CellChangeTimes->{{3.440937453640625*^9, 3.440937454578125*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"P\"\>",
+    Row[{"P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]",
+    "\[EmptySet]", "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"P"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", "P", 
+    "    ", ""}]]], "Output",
+ CellChangeTimes->{3.440937455453125*^9, 3.440937671015625*^9, 
+  3.440938118953125*^9, 3.440938235421875*^9, 3.440938269015625*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"%", ",", "q"}], "]"}]], "Input",
+ CellChangeTimes->{{3.44093745865625*^9, 3.440937461734375*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"P\"\>",
+    Row[{"P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]",
+    "\[EmptySet]", "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\[Or]Q\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(I\[Or])\"\>"}],
+  Row[{
+    Row[{"P"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", 
+    "P\[Or]Q", "    ", "(I\[Or])"}]]], "Output",
+ CellChangeTimes->{3.44093746228125*^9, 3.44093767103125*^9, 
+  3.440938118984375*^9, 3.4409382354375*^9, 3.440938269046875*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"r", ",", "4"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440937474828125*^9, 3.4409374795*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+  "\[EmptySet]", "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]", 
+   InterpretationBox[
+    TagBox[
+     SuperscriptBox[
+      TagBox[
+       OverscriptBox["\<\"R\"\>", "_"],
+       Power,
+       Editable->True,
+       Selectable->True], 
+      TagBox["4",
+       Power,
+       Editable->True,
+       Selectable->True]],
+     InterpretTemplate[Superscript[#, #2]& ],
+     Editable->False,
+     Selectable->False],
+    Row[{
+      Superscript[
+       OverBar["R"], 4]}, ","]], "\[InvisibleSpace]", "\<\" \[RightTee] \"\>",
+    "\[InvisibleSpace]", "\<\"R\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{$CellContext`\[EmptySet], " ; ", 
+    Row[{
+      Superscript[
+       OverBar["R"], 4]}, ","], " \[RightTee] ", "R", "    ", ""}]]], "Output",\
+
+ CellChangeTimes->{3.440937480265625*^9, 3.4409376710625*^9, 3.440938119*^9, 
+  3.44093823546875*^9, 3.440938269078125*^9}]
+}, Open  ]],
+
+Cell["\<\
+No ako uvodimo bilo \[SHacek]to kompliciranije (na primjer negaciju \
+propozicionalne varijable), navodnici su obavezni!\
+\>", "Text",
+ CellChangeTimes->{{3.440937485296875*^9, 3.440937505875*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"!", "p"}], "]"}]], "Input",
+ CellChangeTimes->{{3.440937506984375*^9, 3.440937510625*^9}}],
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"!", "p"}], "]"}]], "Output",
+ CellChangeTimes->{3.440937511171875*^9, 3.440937671078125*^9, 
+  3.44093811903125*^9, 3.440938235484375*^9, 3.44093826909375*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", "\"\<!p\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.44093753128125*^9, 3.440937536109375*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"\[Not]P\"\>",
+    Row[{"\[Not]P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"\[Not]P\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"\[Not]P"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", 
+    "\[Not]P", "    ", ""}]]], "Output",
+ CellChangeTimes->{3.44093753690625*^9, 3.440937671109375*^9, 
+  3.4409381190625*^9, 3.44093823553125*^9, 3.440938269125*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "@", "\"\<!P\>\""}]], "Input",
+ CellChangeTimes->{{3.44093753878125*^9, 3.440937541203125*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"\[Not]P\"\>",
+    Row[{"\[Not]P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"\[Not]P\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"\[Not]P"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", 
+    "\[Not]P", "    ", ""}]]], "Output",
+ CellChangeTimes->{3.44093754203125*^9, 3.440937671125*^9, 
+  3.440938119078125*^9, 3.4409382355625*^9, 3.440938269140625*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Jo\[SHacek] neki pomo\[CAcute]ni detalji", "Section",
+ CellChangeTimes->{{3.44093769184375*^9, 3.440937701640625*^9}}],
+
+Cell[TextData[{
+ "Dozvoljeno je koristiti varijable za pojedine korake u dokazu, kako ne \
+bismo morali koristiti ",
+ Cell[BoxData[
+  FormBox["%", TraditionalForm]]],
+ "-notaciju:"
+}], "Text",
+ CellChangeTimes->{{3.4409377084375*^9, 3.4409377349375*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"k1", "=", 
+  RowBox[{"d", "@", "p"}]}]], "Input",
+ CellChangeTimes->{{3.440937739171875*^9, 3.440937748234375*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"P\"\>",
+    Row[{"P"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]",
+    "\[EmptySet]", "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"P"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", "P", 
+    "    ", ""}]]], "Output",
+ CellChangeTimes->{3.440937750625*^9, 3.440938119109375*^9, 
+  3.440938235578125*^9, 3.440938269171875*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"k2", "=", 
+  RowBox[{"d", "@", "q"}]}]], "Input",
+ CellChangeTimes->{{3.44093775225*^9, 3.44093775578125*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox["\<\"Q\"\>",
+    Row[{"Q"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", "\[InvisibleSpace]",
+    "\[EmptySet]", "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"Q\"\>", "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"\"\>"}],
+  Row[{
+    Row[{"Q"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", "Q", 
+    "    ", ""}]]], "Output",
+ CellChangeTimes->{3.44093775728125*^9, 3.440938119125*^9, 
+  3.440938235609375*^9, 3.4409382691875*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{"k1", ",", "k2"}], "]"}]], "Input",
+ CellChangeTimes->{{3.44093775940625*^9, 3.440937761984375*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox[
+    RowBox[{"\<\"P\"\>", ",", "\<\"Q\"\>"}],
+    Row[{"P", "Q"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\[And]Q\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(I\[And])\"\>"}],
+  Row[{
+    Row[{"P", "Q"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", 
+    "P\[And]Q", "    ", "(I\[And])"}]]], "Output",
+ CellChangeTimes->{3.4409377628125*^9, 3.440938119140625*^9, 
+  3.440938235625*^9, 3.440938269203125*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "Tako\:0111er, mogu\[CAcute]e je u jednoj liniji pozvati funkciju ",
+ Cell[BoxData[
+  FormBox["d", TraditionalForm]]],
+ " vi\[SHacek]e puta:"
+}], "Text",
+ CellChangeTimes->{{3.440937790234375*^9, 3.440937803328125*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "[", 
+  RowBox[{
+   RowBox[{"d", "@", "p"}], ",", 
+   RowBox[{"d", "@", "q"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.4409378048125*^9, 3.440937809984375*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   InterpretationBox[
+    RowBox[{"\<\"P\"\>", ",", "\<\"Q\"\>"}],
+    Row[{"P", "Q"}, ","]], "\[InvisibleSpace]", "\<\" ; \"\>", 
+   "\[InvisibleSpace]", "\[EmptySet]", 
+   "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+   "\[InvisibleSpace]", "\<\"P\[And]Q\"\>", 
+   "\[InvisibleSpace]", "\<\"    \"\>", 
+   "\[InvisibleSpace]", "\<\"(I\[And])\"\>"}],
+  Row[{
+    Row[{"P", "Q"}, ","], " ; ", $CellContext`\[EmptySet], " \[RightTee] ", 
+    "P\[And]Q", "    ", "(I\[And])"}]]], "Output",
+ CellChangeTimes->{3.440937810890625*^9, 3.440938119171875*^9, 
+  3.44093823565625*^9, 3.440938269234375*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"d", "@", 
+  RowBox[{"d", "[", 
+   RowBox[{
+    RowBox[{"d", "@", "\"\<PvQ\>\""}], ",", 
+    RowBox[{"d", "[", 
+     RowBox[{"q", ",", 
+      RowBox[{"d", "[", 
+       RowBox[{"p", ",", "1"}], "]"}]}], "]"}], ",", 
+    RowBox[{"d", "[", 
+     RowBox[{
+      RowBox[{"d", "[", 
+       RowBox[{"q", ",", "2"}], "]"}], ",", "p"}], "]"}]}], "]"}]}]], "Input",\
+
+ CellChangeTimes->{{3.440937813921875*^9, 3.440937876765625*^9}}],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     InterpretationBox[
+      RowBox[{
+       InterpretationBox["\<\"P\[Or]Q\"\>",
+        Row[{"P\[Or]Q"}, ","]], "\[InvisibleSpace]", "\<\" \[RightTee] \"\>", 
+       "\[InvisibleSpace]", "\<\"Q\[Or]P\"\>"}],
+      Row[{
+        Row[{"P\[Or]Q"}, ","], " \[RightTee] ", "Q\[Or]P"}]]},
+    {
+     GraphicsBox[RasterBox[CompressedData["
+1:eJztnM1xgzAQhTWTSlJFWvA5JbiBXCiHXqgjJ0pxkDB4Ja1AMlbQrt838cT8
+GHvRYyWtH/68/nxfP4wxX9Pjd3rY5zcAAAD6GDpz6ef/Zno2nv15wBvTX4xx
+MrRy7IazPw54V8a7EqOUOG2gunRZcwZyBRXoL4sCrSaJyMZhmP4GsmugTQBe
+yNDRVEi1NvR2g6dFSBFUIxTXY3nR4KzIdevaR7uZDgCvIiXFse+X1bafjvdG
+gnwJY989U7J48mVt43fQyyJRItWi1393qPschnY5ZXgtpIXHXMX2v05fwRla
+wyZSfIeqDxmO7FUNRn/fzHNDzjMpT8TVDK4LUqnFx2nYznP+2VIvxIXMkYjV
+YuE5Ca54+kZenxOXMtxalVoEG+QPiu21WjCbC7WUeiOmlDGvj9YA3RTNz+Yx
+Tu6+nBSjMThXyoheboB8dhVTWirIry0MnbfjMtz0pMiXMoIt4D0or1rZxJa3
+o5fouKyYKGWEW4By5tpC/rRl+XKgy+6jvbxI3+j+PFXKiDIq0M5cNMjubw3T
+w26z1qqjYs5O7ehQiRu2QNAMsAWCamxY+KKJVNIWmDiw9BSqIARZpKbuUYU8
+aQtMoCCFKghBEgkphhXytC0weVg+hcpxVisIQRa8hS+skKdtgTwKnNUKQhAG
+Z+GLK+RlUlTgrFYQgjgYCx9XIedtgfuH9JfFOKsVhCCP2MKXqJAztsD9Q3rL
+L3RW1zYPKwhBGkUWvuxqfHVndX3zsIIQgKOuszr8Fp5cTV7/eMg8rCAE4Kjo
+rGYTCtdkB83DCkIAVeEbIm7Hhs3DCkIAt+x2zDIPn4SCEGRgjrF7fNbqFk15
+D5mHFYQA/gNupOW3Y/PmYQUhAAuTVLx2FGAeVhACsNBCb7oSsvmys1EQAgDg
+KVR4qGCj1YEK4wpstBpQIMWimylAs8j3UJXeTAEaRfoPbJbeTAGaRfgPbJbe
+TAHaJfZQkS67/VaFFLWQ9FCJadGSmymARMRIkbPR+lOx8dRPB7IheZG2miAp
+cjZat0ZQBIDFDbdESZGn8BeDQYsIyymJxO42wVENTmWdR2MWA85myZRycjsA
+AAAAAAAC+QMo7Ajl
+       "], {{0, 0}, {217, 55}}, {0, 255},
+       ColorFunction->RGBColor],
+      ImageSize->{217, 55},
+      PlotRange->{{0, 217}, {0, 55}}]}
+   },
+   ColumnsEqual->False,
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+   RowsEqual->False],
+  "Column"]], "Output",
+ CellChangeTimes->{3.44093787934375*^9, 3.440938119265625*^9, 
+  3.44093823575*^9, 3.440938269328125*^9}]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1204, 796},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+Magnification->1.,
+FrontEndVersion->"6.0 for Microsoft Windows (32-bit) (April 20, 2007)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[590, 23, 92, 1, 49, "Subtitle"],
+Cell[685, 26, 319, 8, 29, "Text"],
+Cell[CellGroupData[{
+Cell[1029, 38, 99, 2, 31, "Input"],
+Cell[1131, 42, 581, 8, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1749, 55, 140, 3, 31, "Input"],
+Cell[1892, 60, 1283, 18, 316, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3212, 83, 99, 1, 71, "Section"],
+Cell[3314, 86, 726, 13, 47, "Text"],
+Cell[CellGroupData[{
+Cell[4065, 103, 172, 3, 31, "Input"],
+Cell[4240, 108, 877, 17, 30, "Output"]
+}, Open  ]],
+Cell[5132, 128, 1243, 37, 52, "Text"],
+Cell[6378, 167, 918, 22, 47, "Text"],
+Cell[7299, 191, 1136, 36, 47, "Text"],
+Cell[CellGroupData[{
+Cell[8460, 231, 127, 2, 31, "Input"],
+Cell[8590, 235, 843, 17, 30, "Output"]
+}, Open  ]],
+Cell[9448, 255, 619, 17, 29, "Text"],
+Cell[CellGroupData[{
+Cell[10092, 276, 153, 3, 31, "Input"],
+Cell[10248, 281, 916, 20, 30, "Output"]
+}, Open  ]],
+Cell[11179, 304, 654, 13, 47, "Text"],
+Cell[11836, 319, 288, 7, 29, "Text"],
+Cell[CellGroupData[{
+Cell[12149, 330, 147, 3, 31, "Input"],
+Cell[12299, 335, 898, 19, 30, "Output"]
+}, Open  ]],
+Cell[13212, 357, 240, 5, 29, "Text"],
+Cell[CellGroupData[{
+Cell[13477, 366, 141, 3, 31, "Input"],
+Cell[13621, 371, 877, 18, 30, "Output"]
+}, Open  ]],
+Cell[14513, 392, 608, 14, 50, "Text"],
+Cell[CellGroupData[{
+Cell[15146, 410, 142, 3, 31, "Input"],
+Cell[15291, 415, 1959, 43, 84, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[17299, 464, 93, 1, 71, "Section"],
+Cell[17395, 467, 618, 14, 47, "Text"],
+Cell[18016, 483, 410, 13, 97, "Text"],
+Cell[18429, 498, 387, 12, 29, "Text"],
+Cell[CellGroupData[{
+Cell[18841, 514, 133, 2, 31, "Input"],
+Cell[18977, 518, 891, 17, 30, "Output"]
+}, Open  ]],
+Cell[19883, 538, 171, 4, 29, "Text"],
+Cell[CellGroupData[{
+Cell[20079, 546, 142, 3, 31, "Input"],
+Cell[20224, 551, 901, 18, 30, "Output"]
+}, Open  ]],
+Cell[21140, 572, 273, 7, 29, "Text"],
+Cell[CellGroupData[{
+Cell[21438, 583, 145, 3, 31, "Input"],
+Cell[21586, 588, 954, 18, 30, "Output"]
+}, Open  ]],
+Cell[22555, 609, 314, 6, 29, "Text"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[22906, 620, 132, 3, 71, "Section"],
+Cell[23041, 625, 284, 7, 29, "Text"],
+Cell[CellGroupData[{
+Cell[23350, 636, 200, 4, 31, "Input"],
+Cell[23553, 642, 1232, 35, 30, "Output"]
+}, Open  ]],
+Cell[24800, 680, 364, 8, 29, "Text"],
+Cell[CellGroupData[{
+Cell[25189, 692, 145, 3, 31, "Input"],
+Cell[25337, 697, 1195, 34, 30, "Output"]
+}, Open  ]],
+Cell[26547, 734, 292, 5, 29, "Text"],
+Cell[CellGroupData[{
+Cell[26864, 743, 142, 3, 31, "Input"],
+Cell[27009, 748, 990, 23, 30, "Output"]
+}, Open  ]],
+Cell[28014, 774, 557, 11, 47, "Text"],
+Cell[CellGroupData[{
+Cell[28596, 789, 187, 4, 31, "Input"],
+Cell[28786, 795, 1914, 42, 88, "Output"]
+}, Open  ]],
+Cell[30715, 840, 341, 6, 29, "Text"],
+Cell[CellGroupData[{
+Cell[31081, 850, 196, 4, 31, "Input"],
+Cell[31280, 856, 1061, 32, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[32378, 893, 150, 3, 31, "Input"],
+Cell[32531, 898, 1056, 32, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[33624, 935, 157, 3, 31, "Input"],
+Cell[33784, 940, 1567, 52, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[35388, 997, 144, 3, 31, "Input"],
+Cell[35535, 1002, 1374, 39, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[36946, 1046, 140, 3, 31, "Input"],
+Cell[37089, 1051, 1179, 27, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[38305, 1083, 144, 3, 31, "Input"],
+Cell[38452, 1088, 2150, 45, 108, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[40651, 1139, 105, 1, 71, "Section"],
+Cell[40759, 1142, 1675, 50, 83, "Text"],
+Cell[42437, 1194, 586, 21, 29, "Text"],
+Cell[CellGroupData[{
+Cell[43048, 1219, 152, 3, 31, "Input"],
+Cell[43203, 1224, 1109, 33, 30, "Output"]
+}, Open  ]],
+Cell[44327, 1260, 259, 10, 29, "Text"],
+Cell[CellGroupData[{
+Cell[44611, 1274, 153, 3, 31, "Input"],
+Cell[44767, 1279, 1108, 33, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[45912, 1317, 143, 3, 31, "Input"],
+Cell[46058, 1322, 1105, 33, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[47200, 1360, 145, 3, 31, "Input"],
+Cell[47348, 1365, 1582, 51, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[48967, 1421, 140, 3, 31, "Input"],
+Cell[49110, 1426, 1394, 39, 30, "Output"]
+}, Open  ]],
+Cell[50519, 1468, 510, 15, 29, "Text"],
+Cell[CellGroupData[{
+Cell[51054, 1487, 153, 3, 31, "Input"],
+Cell[51210, 1492, 1112, 33, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[52359, 1530, 153, 3, 31, "Input"],
+Cell[52515, 1535, 1103, 33, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[53655, 1573, 145, 3, 31, "Input"],
+Cell[53803, 1578, 1105, 33, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[54945, 1616, 142, 3, 31, "Input"],
+Cell[55090, 1621, 1594, 52, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[56721, 1678, 143, 3, 31, "Input"],
+Cell[56867, 1683, 1404, 40, 30, "Output"]
+}, Open  ]],
+Cell[58286, 1726, 112, 1, 29, "Text"],
+Cell[CellGroupData[{
+Cell[58423, 1731, 135, 2, 31, "Input"],
+Cell[58561, 1735, 807, 16, 30, "Output"]
+}, Open  ]],
+Cell[59383, 1754, 182, 2, 29, "Text"],
+Cell[CellGroupData[{
+Cell[59590, 1760, 158, 3, 31, "Input"],
+Cell[59751, 1765, 1721, 40, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[61509, 1810, 143, 3, 31, "Input"],
+Cell[61655, 1815, 3750, 71, 128, "Output"]
+}, Open  ]],
+Cell[65420, 1889, 527, 16, 29, "Text"],
+Cell[CellGroupData[{
+Cell[65972, 1909, 142, 3, 31, "Input"],
+Cell[66117, 1914, 1110, 33, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[67264, 1952, 147, 3, 31, "Input"],
+Cell[67414, 1957, 1591, 52, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[69042, 2014, 159, 3, 31, "Input"],
+Cell[69204, 2019, 1699, 47, 30, "Output"]
+}, Open  ]],
+Cell[70918, 2069, 359, 12, 29, "Text"],
+Cell[CellGroupData[{
+Cell[71302, 2085, 143, 3, 31, "Input"],
+Cell[71448, 2090, 1512, 36, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[72997, 2131, 145, 3, 31, "Input"],
+Cell[73145, 2136, 3512, 68, 128, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[76706, 2210, 99, 1, 71, "Section"],
+Cell[76808, 2213, 833, 30, 29, "Text"],
+Cell[CellGroupData[{
+Cell[77666, 2247, 126, 2, 31, "Input"],
+Cell[77795, 2251, 717, 15, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[78549, 2271, 125, 2, 31, "Input"],
+Cell[78677, 2275, 712, 14, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[79426, 2294, 155, 3, 31, "Input"],
+Cell[79584, 2299, 846, 18, 30, "Output"]
+}, Open  ]],
+Cell[80445, 2320, 116, 1, 29, "Text"],
+Cell[CellGroupData[{
+Cell[80586, 2325, 156, 3, 31, "Input"],
+Cell[80745, 2330, 843, 18, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[81625, 2353, 143, 3, 31, "Input"],
+Cell[81771, 2358, 827, 18, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[82635, 2381, 128, 2, 31, "Input"],
+Cell[82766, 2385, 772, 15, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[83575, 2405, 144, 3, 31, "Input"],
+Cell[83722, 2410, 784, 17, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[84543, 2432, 140, 3, 31, "Input"],
+Cell[84686, 2437, 1466, 35, 64, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[86189, 2477, 139, 3, 31, "Input"],
+Cell[86331, 2482, 1618, 38, 64, "Output"]
+}, Open  ]],
+Cell[87964, 2523, 434, 12, 29, "Text"],
+Cell[CellGroupData[{
+Cell[88423, 2539, 169, 3, 31, "Input"],
+Cell[88595, 2544, 676, 14, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[89308, 2563, 200, 4, 31, "Input"],
+Cell[89511, 2569, 1106, 33, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[90654, 2607, 141, 3, 31, "Input"],
+Cell[90798, 2612, 1169, 37, 30, "Output"]
+}, Open  ]],
+Cell[91982, 2652, 183, 4, 29, "Text"],
+Cell[CellGroupData[{
+Cell[92190, 2660, 185, 4, 31, "Input"],
+Cell[92378, 2666, 932, 24, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[93347, 2695, 143, 3, 31, "Input"],
+Cell[93493, 2700, 1514, 35, 86, "Output"]
+}, Open  ]],
+Cell[95022, 2738, 288, 7, 29, "Text"],
+Cell[CellGroupData[{
+Cell[95335, 2749, 121, 2, 31, "Input"],
+Cell[95459, 2753, 945, 23, 30, "Output"]
+}, Open  ]],
+Cell[96419, 2779, 731, 19, 47, "Text"],
+Cell[CellGroupData[{
+Cell[97175, 2802, 145, 3, 31, "Input"],
+Cell[97323, 2807, 1599, 36, 106, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[98971, 2849, 98, 1, 71, "Section"],
+Cell[99072, 2852, 521, 11, 47, "Text"],
+Cell[CellGroupData[{
+Cell[99618, 2867, 124, 2, 31, "Input"],
+Cell[99745, 2871, 599, 13, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[100381, 2889, 130, 2, 31, "Input"],
+Cell[100514, 2893, 641, 13, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[101192, 2911, 143, 3, 31, "Input"],
+Cell[101338, 2916, 734, 16, 30, "Output"]
+}, Open  ]],
+Cell[102087, 2935, 663, 19, 47, "Text"],
+Cell[CellGroupData[{
+Cell[102775, 2958, 147, 3, 31, "Input"],
+Cell[102925, 2963, 695, 15, 30, "Output"]
+}, Open  ]],
+Cell[103635, 2981, 466, 9, 29, "Text"],
+Cell[CellGroupData[{
+Cell[104126, 2994, 126, 2, 31, "Input"],
+Cell[104255, 2998, 604, 13, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[104896, 3016, 128, 2, 31, "Input"],
+Cell[105027, 3020, 637, 14, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[105701, 3039, 146, 3, 31, "Input"],
+Cell[105850, 3044, 707, 16, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[106594, 3065, 150, 3, 31, "Input"],
+Cell[106747, 3070, 619, 17, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[107403, 3092, 153, 3, 31, "Input"],
+Cell[107559, 3097, 662, 14, 30, "Output"]
+}, Open  ]],
+Cell[108236, 3114, 188, 4, 29, "Text"],
+Cell[CellGroupData[{
+Cell[108449, 3122, 151, 3, 31, "Input"],
+Cell[108603, 3127, 996, 31, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[109636, 3163, 149, 3, 31, "Input"],
+Cell[109788, 3168, 993, 31, 30, "Output"]
+}, Open  ]],
+Cell[110796, 3202, 254, 5, 29, "Text"],
+Cell[CellGroupData[{
+Cell[111075, 3211, 154, 3, 31, "Input"],
+Cell[111232, 3216, 387, 10, 42, "Output"]
+}, Open  ]],
+Cell[111634, 3229, 455, 9, 47, "Text"],
+Cell[112092, 3240, 189, 4, 29, "Text"],
+Cell[CellGroupData[{
+Cell[112306, 3248, 148, 3, 31, "Input"],
+Cell[112457, 3253, 996, 31, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[113490, 3289, 143, 3, 31, "Input"],
+Cell[113636, 3294, 841, 20, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[114514, 3319, 139, 3, 31, "Input"],
+Cell[114656, 3324, 676, 19, 30, "Output"]
+}, Open  ]],
+Cell[115347, 3346, 179, 4, 29, "Text"],
+Cell[CellGroupData[{
+Cell[115551, 3354, 154, 3, 31, "Input"],
+Cell[115708, 3359, 359, 9, 42, "Output"]
+}, Open  ]],
+Cell[116082, 3371, 422, 11, 29, "Text"],
+Cell[CellGroupData[{
+Cell[116529, 3386, 130, 2, 31, "Input"],
+Cell[116662, 3390, 608, 13, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[117307, 3408, 150, 3, 31, "Input"],
+Cell[117460, 3413, 972, 30, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[118469, 3448, 148, 3, 31, "Input"],
+Cell[118620, 3453, 971, 30, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[119628, 3488, 157, 3, 31, "Input"],
+Cell[119788, 3493, 1472, 50, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[121297, 3548, 140, 3, 31, "Input"],
+Cell[121440, 3553, 1458, 49, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[122935, 3607, 157, 3, 31, "Input"],
+Cell[123095, 3612, 362, 9, 42, "Output"]
+}, Open  ]],
+Cell[123472, 3624, 378, 10, 29, "Text"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[123887, 3639, 100, 1, 71, "Section"],
+Cell[123990, 3642, 589, 18, 29, "Text"],
+Cell[CellGroupData[{
+Cell[124604, 3664, 128, 2, 31, "Input"],
+Cell[124735, 3668, 580, 12, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[125352, 3685, 127, 2, 31, "Input"],
+Cell[125482, 3689, 576, 12, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[126095, 3706, 146, 3, 31, "Input"],
+Cell[126244, 3711, 661, 15, 30, "Output"]
+}, Open  ]],
+Cell[126920, 3729, 366, 9, 29, "Text"],
+Cell[CellGroupData[{
+Cell[127311, 3742, 115, 2, 31, "Input"],
+Cell[127429, 3746, 1349, 32, 64, "Output"]
+}, Open  ]],
+Cell[128793, 3781, 560, 18, 29, "Text"],
+Cell[CellGroupData[{
+Cell[129378, 3803, 125, 2, 31, "Input"],
+Cell[129506, 3807, 644, 13, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[130187, 3825, 114, 2, 31, "Input"],
+Cell[130304, 3829, 716, 15, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[131057, 3849, 116, 2, 31, "Input"],
+Cell[131176, 3853, 1155, 29, 64, "Output"]
+}, Open  ]],
+Cell[132346, 3885, 368, 11, 29, "Text"],
+Cell[CellGroupData[{
+Cell[132739, 3900, 121, 2, 31, "Input"],
+Cell[132863, 3904, 579, 12, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[133479, 3921, 149, 3, 31, "Input"],
+Cell[133631, 3926, 613, 13, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[134281, 3944, 115, 2, 31, "Input"],
+Cell[134399, 3948, 1256, 31, 64, "Output"]
+}, Open  ]],
+Cell[135670, 3982, 481, 15, 29, "Text"],
+Cell[CellGroupData[{
+Cell[136176, 4001, 123, 2, 31, "Input"],
+Cell[136302, 4005, 578, 12, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[136917, 4022, 118, 2, 31, "Input"],
+Cell[137038, 4026, 580, 12, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[137655, 4043, 142, 3, 31, "Input"],
+Cell[137800, 4048, 665, 15, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[138502, 4068, 115, 2, 31, "Input"],
+Cell[138620, 4072, 1356, 32, 64, "Output"]
+}, Open  ]],
+Cell[139991, 4107, 183, 4, 29, "Text"],
+Cell[CellGroupData[{
+Cell[140199, 4115, 171, 3, 31, "Input"],
+Cell[140373, 4120, 644, 14, 30, "Output"]
+}, Open  ]],
+Cell[141032, 4137, 353, 8, 29, "Text"],
+Cell[CellGroupData[{
+Cell[141410, 4149, 115, 2, 31, "Input"],
+Cell[141528, 4153, 584, 12, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[142149, 4170, 142, 3, 31, "Input"],
+Cell[142294, 4175, 612, 13, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[142943, 4193, 138, 3, 31, "Input"],
+Cell[143084, 4198, 965, 30, 30, "Output"]
+}, Open  ]],
+Cell[144064, 4231, 207, 4, 29, "Text"],
+Cell[CellGroupData[{
+Cell[144296, 4239, 135, 3, 31, "Input"],
+Cell[144434, 4244, 204, 4, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[144675, 4253, 128, 2, 31, "Input"],
+Cell[144806, 4257, 611, 13, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[145454, 4275, 123, 2, 31, "Input"],
+Cell[145580, 4279, 612, 13, 30, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[146241, 4298, 124, 1, 71, "Section"],
+Cell[146368, 4301, 254, 7, 29, "Text"],
+Cell[CellGroupData[{
+Cell[146647, 4312, 139, 3, 31, "Input"],
+Cell[146789, 4317, 559, 12, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[147385, 4334, 134, 3, 31, "Input"],
+Cell[147522, 4339, 556, 12, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[148115, 4356, 144, 3, 31, "Input"],
+Cell[148262, 4361, 640, 15, 30, "Output"]
+}, Open  ]],
+Cell[148917, 4379, 236, 6, 29, "Text"],
+Cell[CellGroupData[{
+Cell[149178, 4389, 189, 5, 31, "Input"],
+Cell[149370, 4396, 644, 15, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[150051, 4416, 446, 14, 31, "Input"],
+Cell[150500, 4432, 1935, 42, 88, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

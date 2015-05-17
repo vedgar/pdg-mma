@@ -1,0 +1,275 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 6.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[      7843,        266]
+NotebookOptionsPosition[      6660,        223]
+NotebookOutlinePosition[      7020,        239]
+CellTagsIndexPosition[      6977,        236]
+WindowFrame->Normal
+ContainsDynamic->False*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Dodatni zadaci", "Subtitle",
+ CellChangeTimes->{{3.44078037909375*^9, 3.44078038065625*^9}, {
+  3.4412998918125*^9, 3.441299895140625*^9}}],
+
+Cell["\<\
+Prvo izvr\[SHacek]ite sljede\[CAcute]e dvije naredbe:\
+\>", "Text",
+ CellChangeTimes->{{3.4407804070625*^9, 3.44078044915625*^9}, {
+  3.4409296059375*^9, 3.4409296059375*^9}, {3.44093816740625*^9, 
+  3.440938167890625*^9}, {3.441299900359375*^9, 3.44129992603125*^9}}],
+
+Cell[BoxData[
+ RowBox[{"SetDirectory", "@", 
+  RowBox[{"NotebookDirectory", "[", "]"}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"<<", "pdg.m"}]], "Input",
+ CellChangeTimes->{{3.440780494453125*^9, 3.44078049715625*^9}, 
+   3.440929379671875*^9}],
+
+Cell[CellGroupData[{
+
+Cell["Zadaci za zagrijavanje", "Section",
+ CellChangeTimes->{{3.4412999781875*^9, 3.441299981328125*^9}, {
+  3.44130151959375*^9, 3.44130152903125*^9}}],
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{
+   RowBox[{"P", "\[And]", "Q"}], "\[RightTee]", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"Q", "\[And]", "P"}], ")"}], "\[And]", "Q"}]}], 
+  TraditionalForm]]]], "Text",
+ CellChangeTimes->{{3.441299989671875*^9, 3.441300009*^9}}],
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{"\[RightTee]", 
+   RowBox[{"P", "\[LeftRightArrow]", "P"}]}], TraditionalForm]]]], "Text",
+ CellChangeTimes->{{3.441300052359375*^9, 3.441300092890625*^9}}],
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{
+   RowBox[{"P", "\[Or]", "Q"}], ",", 
+   RowBox[{"P", "\[Rule]", 
+    RowBox[{"Q", "\[RightTee]", "Q"}]}]}], TraditionalForm]]]], "Text",
+ CellChangeTimes->{{3.441300222671875*^9, 3.441300242734375*^9}}],
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{
+   RowBox[{"\[Not]", "P"}], "\[Rule]", 
+   RowBox[{"P", "\[RightTee]", "P"}]}], TraditionalForm]]]], "Text",
+ CellChangeTimes->{{3.441300101*^9, 3.441300132109375*^9}}],
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{
+   RowBox[{"P", "\[And]", 
+    RowBox[{"(", 
+     RowBox[{"P", "\[Rule]", "Q"}], ")"}]}], "\[RightTee]", 
+   RowBox[{"P", "\[And]", "Q"}]}], TraditionalForm]]]], "Text",
+ CellChangeTimes->{{3.44130049715625*^9, 3.441300523359375*^9}}],
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{
+   RowBox[{"\[Not]", 
+    RowBox[{"(", 
+     RowBox[{"P", "\[Or]", "Q"}], ")"}]}], "\[RightTee]", 
+   RowBox[{"\[Not]", "P"}]}], TraditionalForm]]]], "Text",
+ CellChangeTimes->{{3.44130084996875*^9, 3.441300872734375*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Malo manje o\[CHacek]iti zadaci", "Section",
+ CellChangeTimes->{{3.441300210578125*^9, 3.441300215296875*^9}}],
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{
+   RowBox[{"P", "\[Or]", "Q"}], ",", " ", 
+   RowBox[{
+    RowBox[{"P", "\[LeftRightArrow]", "Q"}], "\[RightTee]", 
+    RowBox[{"P", "\[And]", "Q"}]}]}], TraditionalForm]]]], "Text",
+ CellChangeTimes->{{3.44130027671875*^9, 3.441300311640625*^9}}],
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{
+   RowBox[{"\[Not]", 
+    RowBox[{"(", 
+     RowBox[{"P", "\[And]", "Q"}], ")"}]}], ",", 
+   RowBox[{"P", "\[Rule]", 
+    RowBox[{"Q", "\[RightTee]", 
+     RowBox[{"\[Not]", "P"}]}]}]}], TraditionalForm]]]], "Text",
+ CellChangeTimes->{{3.441300326671875*^9, 3.441300364609375*^9}, {
+  3.44130039803125*^9, 3.44130039940625*^9}, {3.441300449*^9, 
+  3.441300470640625*^9}}],
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{
+   RowBox[{"P", "\[Rule]", "R"}], ",", " ", 
+   RowBox[{
+    RowBox[{"\[Not]", "P"}], "\[Rule]", 
+    RowBox[{"R", "\[RightTee]", "R"}]}]}], TraditionalForm]]]], "Text",
+ CellChangeTimes->{{3.441300802171875*^9, 3.44130081534375*^9}}],
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"P", "\[And]", "Q"}], ")"}], "\[Rule]", "R"}], ",", " ", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"Q", "\[And]", "R"}], ")"}], "\[Rule]", 
+    RowBox[{
+     RowBox[{"P", "\[RightTee]", "Q"}], "\[Rule]", 
+     RowBox[{"(", 
+      RowBox[{"P", "\[LeftRightArrow]", "R"}], ")"}]}]}]}], 
+  TraditionalForm]]]], "Text",
+ CellChangeTimes->{{3.441301420171875*^9, 3.44130144996875*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Te\:017ei zadaci", "Section",
+ CellChangeTimes->{{3.441300546125*^9, 3.44130054825*^9}}],
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{"\[RightTee]", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"P", "\[Rule]", "Q"}], ")"}], "\[Or]", 
+    RowBox[{"(", 
+     RowBox[{"Q", "\[Rule]", "P"}], ")"}]}]}], TraditionalForm]]]], "Text",
+ CellChangeTimes->{{3.44130055175*^9, 3.44130057490625*^9}}],
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"P", "\[And]", "Q"}], ")"}], "\[Rule]", "R"}], ",", " ", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"P", "\[And]", 
+      RowBox[{"\[Not]", "Q"}]}], ")"}], "\[Rule]", 
+    RowBox[{
+     RowBox[{"R", "\[RightTee]", "P"}], "\[Rule]", "R"}]}]}], 
+  TraditionalForm]]]], "Text",
+ CellChangeTimes->{{3.441300647265625*^9, 3.441300700671875*^9}}],
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{
+   RowBox[{"P", "\[LeftRightArrow]", 
+    RowBox[{"\[Not]", "P"}]}], "\[RightTee]", "Q"}], 
+  TraditionalForm]]]], "Text",
+ CellChangeTimes->{{3.44130074646875*^9, 3.441300760703125*^9}}],
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{
+   RowBox[{"\[Not]", 
+    RowBox[{"(", 
+     RowBox[{"P", "\[And]", 
+      RowBox[{"\[Not]", "Q"}]}], ")"}]}], "\[RightTee]", 
+   RowBox[{"Q", "\[Or]", 
+    RowBox[{"\[Not]", "P"}]}]}], TraditionalForm]]]], "Text",
+ CellChangeTimes->{{3.44130100446875*^9, 3.44130105484375*^9}, {
+  3.441301112390625*^9, 3.44130111575*^9}}],
+
+Cell[TextData[Cell[BoxData[
+ FormBox[
+  RowBox[{"\[RightTee]", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"\[Not]", "P"}], "\[Or]", "Q"}], ")"}], "\[And]", 
+      RowBox[{"(", 
+       RowBox[{"R", "\[Rule]", "P"}], ")"}]}], ")"}], "\[Or]", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"\[Not]", 
+       RowBox[{"(", 
+        RowBox[{"R", "\[Or]", "P"}], ")"}]}], "\[Rule]", "Q"}], ")"}]}]}], 
+  TraditionalForm]]]], "Text",
+ CellChangeTimes->{{3.4413011646875*^9, 3.441301230578125*^9}}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1204, 796},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+Magnification->1.,
+FrontEndVersion->"6.0 for Microsoft Windows (32-bit) (April 20, 2007)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[590, 23, 145, 2, 49, "Subtitle"],
+Cell[738, 27, 278, 5, 29, "Text"],
+Cell[1019, 34, 99, 2, 31, "Input"],
+Cell[1121, 38, 140, 3, 31, "Input"],
+Cell[CellGroupData[{
+Cell[1286, 45, 152, 2, 71, "Section"],
+Cell[1441, 49, 280, 8, 29, "Text"],
+Cell[1724, 59, 204, 4, 29, "Text"],
+Cell[1931, 65, 252, 6, 29, "Text"],
+Cell[2186, 73, 217, 5, 29, "Text"],
+Cell[2406, 80, 283, 7, 29, "Text"],
+Cell[2692, 89, 271, 7, 29, "Text"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3000, 101, 116, 1, 71, "Section"],
+Cell[3119, 104, 296, 7, 29, "Text"],
+Cell[3418, 113, 420, 11, 29, "Text"],
+Cell[3841, 126, 283, 7, 29, "Text"],
+Cell[4127, 135, 474, 14, 29, "Text"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4638, 154, 94, 1, 71, "Section"],
+Cell[4735, 157, 301, 8, 29, "Text"],
+Cell[5039, 167, 433, 13, 29, "Text"],
+Cell[5475, 182, 236, 6, 29, "Text"],
+Cell[5714, 190, 372, 10, 29, "Text"],
+Cell[6089, 202, 543, 17, 29, "Text"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
